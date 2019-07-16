@@ -4,14 +4,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  Button,
   Dimensions,
   Alert,
   Linking, 
   Clipboard,
   TextInput,
-  Animated,
-  Easing,
 } from 'react-native';
 import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';
@@ -19,14 +17,15 @@ import Communications from 'react-native-communications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-  
+import * as fonts from '../../constants/fonts';
+import * as colors from '../../constants/colors';
+
 const iconSize = 25;
 const iconColor='#000';
 const iconContrastColor = 'white';
 class Camera extends React.Component {
     constructor(props){
       super(props);
-      this.positionY = new Animated.Value(0);      
     }
 
     state = {
@@ -34,23 +33,24 @@ class Camera extends React.Component {
       autoFocusPoint: {
         normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
         drawRectPosition: {
-          x: Dimensions.get('window').width * 0.5 - 32,
-          y: Dimensions.get('window').height * 0.5 - 32,
+          x: Dimensions.get('window').width * 0.5 - 90,
+          y: Dimensions.get('window').height * 0.5 - 150,
         },
       },
       type: 'back',
       ratio: '16:9',
-      canDetectBarcode: true,
-      textBlocks: [],
+      canDetectBarcode: false,
       barcodes: [],
       barcodeObj: null,
       showDetails: false,
-      lightActive: false,
       focusedScreen: true,
     };
 
     componentDidMount() {
+      this.setState({ canDetectBarcode: false })
+      
       const { navigation } = this.props;
+
       navigation.addListener('willFocus', () =>
         this.setState({ focusedScreen: true })
       );
@@ -58,28 +58,14 @@ class Camera extends React.Component {
         this.setState({ focusedScreen: false })
       );
 
-      this.animatePositionY();
     }
 
-    animatePositionY = () => {
-      this.positionY.setValue(0);
-      return  Animated.timing( 
-                this.positionY,
-                {
-                  toValue: 1,
-                  duration: 1000,
-                 // useNativeDriver: true
-                }).start(() => {
-              this.animatePositionY()
-            });
-    }
-
-    toggleFocus() {
+ /*    toggleFocus() {
       this.setState({
         autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on',
       });
     }
-  
+   */
     touchToFocus(event) {
       const { pageX, pageY } = event.nativeEvent;
       const screenWidth = Dimensions.get('window').width;
@@ -111,10 +97,15 @@ class Camera extends React.Component {
   
     toggleValue = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
 
-    barcodeRecognized = (ev) => {
+/*     barcodeRecognized = (ev) => {
       this.setState({barcodeObj: ev});
       return  this.setState({ barcodes: ev.data })
-    };
+    }; */
+
+    barcodeRecognized = () => {
+      Alert.alert('go to result')
+      return this.props.navigation.push('Results')
+    }
 
     urlify = (text) => {
       var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
@@ -231,7 +222,7 @@ class Camera extends React.Component {
       </View>
     );
 
-    getIconName = (val, name1, name2) => {
+   /*  getIconName = (val, name1, name2) => {
       return val ? name2 : name1;
     }
 
@@ -243,18 +234,21 @@ class Camera extends React.Component {
       return this.setState({ 
         lightActive: !this.state.lightActive 
       });
+    } */
+    onPressScan = () => {
+      return this.setState({
+        canDetectBarcode: true
+      })
+
     }
 
     renderCamera() { 
       const drawFocusRingPosition = {
-        top: this.state.autoFocusPoint.drawRectPosition.y - 32,
-        left: this.state.autoFocusPoint.drawRectPosition.x - 32,
+        top: this.state.autoFocusPoint.drawRectPosition.y,
+        left: this.state.autoFocusPoint.drawRectPosition.x,
       };
 
-      const animateY = this.positionY.interpolate({
-        inputRange: [0, .5, 1],
-        outputRange: [0, 120, 0]
-      });
+      const { lightActive } = this.props;
 
       return (
         <RNCamera
@@ -265,7 +259,7 @@ class Camera extends React.Component {
             flex: 1,
             justifyContent: 'space-between',
           }}
-          flashMode={this.state.lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+          flashMode={lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
           type={this.state.type}
           autoFocus={this.state.autoFocus}
           autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
@@ -276,20 +270,29 @@ class Camera extends React.Component {
               {title: 'Permission to use camera',
                message: 'We need your permission to use your camera phone'}
             }
-          onBarCodeRead={this.barcodeRecognized.bind(this)}
+          onBarCodeRead={ () => this.barcodeRecognized}
         >
           <View style={StyleSheet.absoluteFill}>
             <View style={[styles.autoFocusBox, drawFocusRingPosition]}>
-              <Animated.View style={{height: 2, width: '100%', backgroundColor: 'green', transform: [{translateY: animateY }]}} />
+            <View style={{width: '100%', height: '100%', position: 'relative'}}>
+              <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
+              <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
+              <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
+              <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
             </View>
-             <TouchableWithoutFeedback
-              style={styles.fillAll}
-              onPress={this.touchToFocus.bind(this)}>
-              <View style={styles.fillAll} />
-            </TouchableWithoutFeedback>
+            </View>
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <View
+          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={styles.actionBlock}>
+              <Text style={styles.actionText} >Point the camera at the QR code and press</Text>
+              <TouchableOpacity 
+                style={styles.actionButtonHolder}
+                onPress={ () => this.onPressScan } >
+                <Text style={styles.actionButtonText}>SCAN</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/*   <View
               style={{
                 height: 56,
                 backgroundColor: 'transparent',
@@ -317,7 +320,7 @@ class Camera extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {!!this.state.barcodes.length && this.renderBarcodes()}
+          {!!this.state.barcodes.length && this.renderBarcodes()} */}
         </RNCamera>
       );
     }
@@ -333,7 +336,6 @@ class Camera extends React.Component {
       } else {
         return <View />;
       }
-    //  return <View style={styles.container}>{this.renderCamera()}</View>;
     }
   }
   export default withNavigationFocus(Camera);
@@ -342,13 +344,35 @@ class Camera extends React.Component {
     container: {
       width: '100%',
       height: '100%',
-      paddingTop: 10,
       backgroundColor: '#000',
     },
     errorText: {
       fontSize: 18,
       padding: 20,
       color: 'white'
+    },
+    actionBlock: {
+      width: '60%',
+      marginBottom: '10%'
+    },
+    actionText: {
+      fontFamily: fonts.HelveticaNeue,
+      fontSize: 14,
+      lineHeight: 20,
+      textAlign: 'center'
+    },
+    actionButtonHolder: {
+      width: '100%',
+      paddingVertical: 8,
+      marginTop: 9,
+      backgroundColor: colors.mainContrast,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    actionButtonText: {
+      fontFamily: fonts.HelveticaNeueMedium,
+      fontSize: 18,
+      color: colors.white
     },
     flipButton: {
       width: 150,
@@ -365,11 +389,8 @@ class Camera extends React.Component {
     },
     autoFocusBox: {
       position: 'absolute',
-      height: 120,
-      width: 120,
-      borderWidth: 2,
-      borderColor: '#ccc',
-      opacity: 0.4,
+      height: 180,
+      width: 180,
     },
     flipText: {
       flex: 1,
@@ -460,7 +481,4 @@ class Camera extends React.Component {
       textAlign: 'center',
       backgroundColor: 'transparent',
     },
-    fillAll: {
-      flex: 1.
-    }
   });
