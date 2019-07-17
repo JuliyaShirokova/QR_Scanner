@@ -1,5 +1,6 @@
-import { ADD_ARTICLE } from "../constants/action-types";
+import { Alert } from 'react-native';
+import { ADD_RESULT } from "../constants/action-types";
 
-export function addArticle(payload) {
-    return { type: ADD_ARTICLE, payload }
+export function addResult( payload ) {
+    return { type: ADD_RESULT, payload }
   };

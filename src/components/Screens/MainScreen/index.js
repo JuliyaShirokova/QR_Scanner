@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, StatusBar, PixelRatio} from 'react-native';
-import Camera from '../../Camera';
+import CameraContainer from '../../CameraContainer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
@@ -54,7 +54,7 @@ class MainScreen extends Component{
             <View
                 style={styles.container}
             >
-                <Camera lightActive = {this.state.lightActive} />
+                <CameraContainer lightActive = {this.state.lightActive} />
             </View>
         )
     }

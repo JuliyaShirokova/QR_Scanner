@@ -4,12 +4,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Button,
+  TouchableWithoutFeedback,
   Dimensions,
   Alert,
   Linking, 
   Clipboard,
-  TextInput,
+  TextInput
 } from 'react-native';
 import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';
@@ -19,53 +19,39 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
+  
 
 const iconSize = 25;
 const iconColor='#000';
 const iconContrastColor = 'white';
 class Camera extends React.Component {
-    constructor(props){
-      super(props);
-    }
-
     state = {
       autoFocus: 'on',
       autoFocusPoint: {
         normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
         drawRectPosition: {
           x: Dimensions.get('window').width * 0.5 - 90,
-          y: Dimensions.get('window').height * 0.5 - 150,
+          y: Dimensions.get('window').height * 0.5 - 90,
         },
       },
       type: 'back',
       ratio: '16:9',
       canDetectBarcode: false,
-      barcodes: [],
+      barcodes: null,
       barcodeObj: null,
       showDetails: false,
-      focusedScreen: true,
     };
 
     componentDidMount() {
-      this.setState({ canDetectBarcode: false })
-      
       const { navigation } = this.props;
-
       navigation.addListener('willFocus', () =>
         this.setState({ focusedScreen: true })
       );
       navigation.addListener('willBlur', () =>
         this.setState({ focusedScreen: false })
       );
-
     }
 
- /*    toggleFocus() {
-      this.setState({
-        autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on',
-      });
-    }
-   */
     touchToFocus(event) {
       const { pageX, pageY } = event.nativeEvent;
       const screenWidth = Dimensions.get('window').width;
@@ -88,24 +74,24 @@ class Camera extends React.Component {
       });
     }
  
-    takePicture = async function() {
-      if (this.camera) {
-        const data = await this.camera.takePictureAsync();
-        Alert.alert('takePicture ', JSON.stringify(data));
-      }
-    };
-  
+   
     toggleValue = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
-
-/*     barcodeRecognized = (ev) => {
-      this.setState({barcodeObj: ev});
-      return  this.setState({ barcodes: ev.data })
-    }; */
-
-    barcodeRecognized = () => {
-      Alert.alert('go to result')
-      return this.props.navigation.push('Results')
+    
+    pushResult = () => {
+        const { onAddResult } = this.props;
+        onAddResult( this.state.barcodes );
+        return this.props.navigation.push('Results');
     }
+
+    barcodeRecognized = (ev) => {
+      this.setState(
+            {
+                barcodes: ev.data,
+                barcodeObj: ev
+            },
+            this.pushResult
+            );
+    };
 
     urlify = (text) => {
       var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
@@ -114,7 +100,7 @@ class Camera extends React.Component {
           return urlTransform;
       }); 
     }
-    openInBrowser = () => {
+    /* openInBrowser = () => {
       console.log('open in browser');
       const url = `${this.urlify(this.state.barcodes)}`;
       return Linking.canOpenURL(url)
@@ -154,8 +140,8 @@ class Camera extends React.Component {
     showDetails = () => {
       return this.setState({showDetails: !this.state.showDetails })
     }
-
-    renderBarcodes = () => (
+ */
+  /*   renderBarcodes = () => (
       <View style={styles.barcodeContainer}>
         <View
           style={styles.barcodeContent}
@@ -221,8 +207,12 @@ class Camera extends React.Component {
         </View>
       </View>
     );
+ */
+    onCameraReadyHandle = () => {
 
-   /*  getIconName = (val, name1, name2) => {
+    }
+
+ /*    getIconName = (val, name1, name2) => {
       return val ? name2 : name1;
     }
 
@@ -234,22 +224,15 @@ class Camera extends React.Component {
       return this.setState({ 
         lightActive: !this.state.lightActive 
       });
-    } */
-    onPressScan = () => {
-      return this.setState({
-        canDetectBarcode: true
-      })
-
     }
-
-    renderCamera() { 
+ */
+    renderCamera() {
+      const { canDetectText, canDetectBarcode } = this.state;
+      
       const drawFocusRingPosition = {
-        top: this.state.autoFocusPoint.drawRectPosition.y,
+        top: this.state.autoFocusPoint.drawRectPosition.y - 90,
         left: this.state.autoFocusPoint.drawRectPosition.x,
       };
-
-      const { lightActive } = this.props;
-
       return (
         <RNCamera
           ref={ref => {
@@ -259,7 +242,7 @@ class Camera extends React.Component {
             flex: 1,
             justifyContent: 'space-between',
           }}
-          flashMode={lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+          flashMode={this.props.lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
           type={this.state.type}
           autoFocus={this.state.autoFocus}
           autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
@@ -270,34 +253,41 @@ class Camera extends React.Component {
               {title: 'Permission to use camera',
                message: 'We need your permission to use your camera phone'}
             }
-          onBarCodeRead={ () => this.barcodeRecognized}
+          onBarCodeRead={canDetectBarcode ? this.barcodeRecognized : null}
+          onCameraReady={this.onCameraReadyHandle}
         >
           <View style={StyleSheet.absoluteFill}>
             <View style={[styles.autoFocusBox, drawFocusRingPosition]}>
-            <View style={{width: '100%', height: '100%', position: 'relative'}}>
-              <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
-              <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
-              <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
-              <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
+            <View style={{flex: 1, position: 'relative', borderColor: 'red', borderWidth: 1}}>
+                <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
+                <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
+                <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
+                <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
+              </View>
             </View>
-            </View>
+            <TouchableWithoutFeedback onPress={this.touchToFocus.bind(this)}>
+              <View style={{ flex: 1 }} />
+            </TouchableWithoutFeedback>
           </View>
           <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
             <View style={styles.actionBlock}>
-              <Text style={styles.actionText} >Point the camera at the QR code and press</Text>
+              <Text style={styles.actionText}>Point the camera at the QR code and press</Text>
               <TouchableOpacity 
                 style={styles.actionButtonHolder}
-                onPress={ () => this.onPressScan } >
-                <Text style={styles.actionButtonText}>SCAN</Text>
+                onPress={ this.toggleValue('canDetectBarcode') } >
+                <Text style={styles.actionButtonText}>
+                  {!canDetectBarcode ? 'SCAN' : 'SCANNING'}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
-          {/*   <View
+          {/*<View style={{ bottom: 0 }}>
+            <View
               style={{
                 height: 56,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
-                alignSelf: 'center',
+                alignSelf: 'flex-end',
               }}
             >
               <TouchableOpacity
@@ -320,59 +310,60 @@ class Camera extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {!!this.state.barcodes.length && this.renderBarcodes()} */}
+            */}
+          {/*!!this.state.barcodes.length && this.renderBarcodes()*/}
         </RNCamera>
       );
     }
   
     render() {
-      const { hasCameraPermission, focusedScreen } = this.state;
-      if (hasCameraPermission === null) {
-        return <View style={styles.container}><Text style={styles.errorText}>Has no camera permission</Text></View>;
-      } else if (hasCameraPermission === false) {
-        return <View style={styles.container}><Text style={styles.errorText}>No access to camera</Text></View>;
-      } else if (focusedScreen){
-        return <View style={styles.container}>{this.renderCamera()}</View>
-      } else {
-        return <View />;
-      }
+        const { hasCameraPermission, focusedScreen } = this.state;
+        if (hasCameraPermission === null) {
+          return <View style={styles.container}><Text style={styles.errorText}>Has no camera permission</Text></View>;
+        } else if (hasCameraPermission === false) {
+          return <View style={styles.container}><Text style={styles.errorText}>No access to camera</Text></View>;
+        } else if (focusedScreen){
+          return <View style={styles.container}>{this.renderCamera()}</View>
+        } else {
+          return <View />;
+        }
     }
   }
   export default withNavigationFocus(Camera);
 
   const styles = StyleSheet.create({
     container: {
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#000',
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#000',
     },
     errorText: {
-      fontSize: 18,
-      padding: 20,
-      color: 'white'
+        fontSize: 18,
+        padding: 20,
+        color: 'white'
     },
     actionBlock: {
-      width: '60%',
-      marginBottom: '10%'
+        width: '60%',
+        marginBottom: '10%'
     },
     actionText: {
-      fontFamily: fonts.HelveticaNeue,
-      fontSize: 14,
-      lineHeight: 20,
-      textAlign: 'center'
+        fontFamily: fonts.HelveticaNeue,
+        fontSize: 14,
+        lineHeight: 20,
+        textAlign: 'center'
     },
     actionButtonHolder: {
-      width: '100%',
-      paddingVertical: 8,
-      marginTop: 9,
-      backgroundColor: colors.mainContrast,
-      justifyContent: 'center',
-      alignItems: 'center'
+        width: '100%',
+        paddingVertical: 8,
+        marginTop: 9,
+        backgroundColor: colors.mainContrast,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     actionButtonText: {
-      fontFamily: fonts.HelveticaNeueMedium,
-      fontSize: 18,
-      color: colors.white
+        fontFamily: fonts.HelveticaNeueMedium,
+        fontSize: 18,
+        color: colors.white
     },
     flipButton: {
       width: 150,
