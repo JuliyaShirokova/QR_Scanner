@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import HeaderTitle from '../../Common/HeaderTitle';
+import About from '../../About';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as colors from '../../../constants/colors';
 import * as fonts from '../../../constants/fonts';
-import ResultContainer from '../../ResultContainer';
 
-class ResultsScreen extends Component{
+class AboutScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View style={styles.menuContainer}>
-            <TouchableOpacity style={styles.manuIconHolder} onPress = {() => navigation.openDrawer()} >
+            <TouchableOpacity style={styles.manuIconHolder} onPress = {() => navigation.openDrawer()}>
                 <Ionicons name="md-more" color={colors.white} size={24} />
             </TouchableOpacity>
         </View>),
         headerLeft: null,
-        headerTitle: (<HeaderTitle text={'QR Scanner - Result'} textColor={colors.titleText} />),
+        headerTitle: (<HeaderTitle text={'QR Scanner - About'} textColor={colors.titleText} />),
         headerStyle: { 
             height: 80,
             paddingTop: 26,
@@ -27,7 +27,7 @@ class ResultsScreen extends Component{
             <View
                 style={styles.container}
             >
-                <ResultContainer />
+                <About />
             </View>
         )
     }
@@ -50,5 +50,4 @@ const styles=StyleSheet.create({
         alignItems: 'center',
     },
 })
-export default ResultsScreen;
-
+export default AboutScreen;
