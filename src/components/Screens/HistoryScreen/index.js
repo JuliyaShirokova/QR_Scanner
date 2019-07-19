@@ -35,7 +35,6 @@ class HistoryScreen extends Component{
 const styles=StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 16,
     },
     menuContainer: {
         width: 30,
