@@ -231,7 +231,7 @@ class Camera extends React.Component {
       
       const drawFocusRingPosition = {
         top: this.state.autoFocusPoint.drawRectPosition.y - 90,
-        left: this.state.autoFocusPoint.drawRectPosition.x,
+        left: this.state.autoFocusPoint.drawRectPosition.x - 90,
       };
       return (
         <RNCamera
@@ -258,7 +258,7 @@ class Camera extends React.Component {
         >
           <View style={StyleSheet.absoluteFill}>
             <View style={[styles.autoFocusBox, drawFocusRingPosition]}>
-            <View style={{flex: 1, position: 'relative', borderColor: 'red', borderWidth: 1}}>
+            <View style={{flex: 1, position: 'relative'}}>
                 <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
                 <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
                 <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>

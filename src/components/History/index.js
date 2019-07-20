@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, SectionList, StyleSheet, Alert, Linking, C
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
 import { ScrollView } from 'react-native-gesture-handler';
+import { tsImportEqualsDeclaration } from '@babel/types';
 
 
 class History extends Component{
@@ -10,17 +11,47 @@ class History extends Component{
         super(props);
     
         this.state = {
+            disableMove: true,
+            disableCopy: true,
             selectedKey: '',
             selectedData: '',
         };
         
     }
     
-    onItemPress = ( elKey, elData ) => {
-        const isSelected = elKey == this.state.selectedKey;
+
+    canOpen = (text) => {
+        return Linking.canOpenURL(text)
+            .then((supported) => {
+                if (supported) {
+                    return true;
+                }else{
+                    return false;
+                }
+                
+            })
+            .catch((err) => console.err('An error occurred', err));  
+        
+    }
+
+    onItemPress = async ( elKey, elData ) => {
+        const isSelected = (elKey == this.state.selectedKey) ? true : false;
         const valKey = ( isSelected ) ? '' : elKey; 
         const valData = ( isSelected ) ? '' : elData; 
-        return  this.setState({
+        const isEmpty = (valKey == '') ? true : false;
+        
+        const url = `${this.urlify(valData)}`;
+        //Alert.alert('val data', valData.toString())
+        if ( url != ''){
+            isURL = await this.canOpen(url);      
+        }else{
+            isURL=false;
+        }
+        
+       // Alert.alert("onItem", isURL.toString());
+        this.setState({
+            disableMove: !isURL,
+            disableCopy: isEmpty,
             selectedKey: valKey,
             selectedData: valData
         })
@@ -79,9 +110,9 @@ class History extends Component{
         return Linking.canOpenURL(url)
             .then((supported) => {
                 if (!supported) {
-                Alert.alert("Can't handle url: ", url);
+                    Alert.alert("Can't handle url: ", url);
                 } else {
-                return Linking.openURL(url);
+                    return Linking.openURL(url);
                 }
             })
             .catch((err) => console.err('An error occurred', err));
@@ -92,7 +123,9 @@ class History extends Component{
         await Clipboard.setString(curr);
         Alert.alert('Copied to Clipboard!', curr);
     };
-  
+    getOpacity = (dis) => {
+        return (dis) ? 0.5 : 1
+    }
 
     render(){
         return (
@@ -111,7 +144,9 @@ class History extends Component{
                     
                         <TouchableOpacity
                             onPress={() => this.copyToClipboard('text')}
-                            style={styles.actionButton}
+                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
+                            disabled={ this.state.disableCopy }
+                            activeOpacity={ () => this.getOpacity(this.state.disableCopy) }
                         >
                             <Text style={styles.actionButtonText}>COPY</Text>
                         </TouchableOpacity>
@@ -119,7 +154,9 @@ class History extends Component{
                     <View style={style=styles.actionButtonHolder}>
                         <TouchableOpacity
                             onPress={() => this.onMove()}
-                            style={styles.actionButton}
+                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
+                            disabled={ this.state.disableMove }
+                            activeOpacity={ ()=> this.getOpacity(this.state.disableMove) }
                         >    
                             <Text style={styles.actionButtonText}>MOVE</Text>
                         </TouchableOpacity>

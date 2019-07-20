@@ -5,12 +5,48 @@ import * as fonts from '../../constants/fonts';
 
 
 class Result extends Component{
-    
-    getResult = () => {
+    constructor(props){
+        super(props);
+
+        this.state={
+            result: '', 
+            disableMove: true,
+            disableCopy: false,
+        }
+    }
+    componentDidMount(){
+
+        this.setResult();
+    }
+
+    canOpen = (text) => {
+        return Linking.canOpenURL(text)
+            .then((supported) => {
+                if (supported) {
+                    return true;
+                }else{
+                    return false;
+                }
+                
+            })
+    }
+
+    setResult = async () => {
         const { results } = this.props;
         const last = results.length-1;
-        return results[last] || 'No results';
+        const res = results[last] || 'No results';
+
+        const isURL = await this.canOpen(res);      
+       
+        return this.setState({
+            disableMove: !isURL,
+            result: res
+        });
     }
+
+    getResult = () => this.state.result;
+
+    
     urlify = (text) => {
         var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
         return text.replace(urlRegex, function(url,b,c) {
@@ -20,10 +56,7 @@ class Result extends Component{
     }
 
     onMove = () => {
-        const { results } = this.props;
-        const last = results.length-1;
-        const curr = results[last] || null;
-        
+        const curr = this.state.result;
         const url = `${this.urlify(curr)}`;
         return Linking.canOpenURL(url)
             .then((supported) => {
@@ -41,12 +74,11 @@ class Result extends Component{
         Alert.alert('Copied to Clipboard!', text);
     };
   
+    getOpacity = (dis) => {
+        return (dis) ? 0.5 : 1
+    }
 
     render(){
-        const { results } = this.props;
-        const last = results.length-1;
-        const curr = results[last] || null;
-    
         return (
             <View
                 style={styles.container}
@@ -60,8 +92,10 @@ class Result extends Component{
                     <View style={style=styles.actionButtonHolder}>
                     
                         <TouchableOpacity
-                            onPress={() => this.copyToClipboard(curr)}
-                            style={styles.actionButton}
+                            onPress={() => this.copyToClipboard(this.state.result)}
+                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
+                            disabled={ this.state.disableCopy }
+                            activeOpacity={ () => this.getOpacity(this.state.disableCopy) }
                         >
                             <Text style={styles.actionButtonText}>COPY</Text>
                         </TouchableOpacity>
@@ -69,7 +103,9 @@ class Result extends Component{
                     <View style={style=styles.actionButtonHolder}>
                         <TouchableOpacity
                             onPress={() => this.onMove()}
-                            style={styles.actionButton}
+                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
+                            disabled={ this.state.disableMove }
+                            activeOpacity={ ()=> this.getOpacity(this.state.disableMove) }
                         >    
                             <Text style={styles.actionButtonText}>MOVE</Text>
                         </TouchableOpacity>
