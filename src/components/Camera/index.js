@@ -231,7 +231,7 @@ class Camera extends React.Component {
       
       const drawFocusRingPosition = {
         top: this.state.autoFocusPoint.drawRectPosition.y - 90,
-        left: this.state.autoFocusPoint.drawRectPosition.x - 90,
+        left: this.state.autoFocusPoint.drawRectPosition.x,
       };
       return (
         <RNCamera

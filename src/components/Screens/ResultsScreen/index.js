@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Tooltip} from 'react-native-elements';
 import HeaderTitle from '../../Common/HeaderTitle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as colors from '../../../constants/colors';
 import * as fonts from '../../../constants/fonts';
 import ResultContainer from '../../ResultContainer';
+import PopUpMenu from '../../Common/PopUpMenu';
 
 class ResultsScreen extends Component{
+
+    constructor(props){
+        super(props);
+
+        this.state={
+            visibleMenu: false,
+        }
+    }
+
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View style={styles.menuContainer}>
-            <TouchableOpacity style={styles.manuIconHolder} onPress = {() => navigation.openDrawer()} >
-                <Ionicons name="md-more" color={colors.white} size={24} />
-            </TouchableOpacity>
+            <Tooltip 
+                popover={navigation.getParam('renderMenu')}
+                toogleOnPress={false}
+                withPointer={false}
+                width={180}
+                height={86}
+                backgroundColor='white'
+                withOverlay={false}
+            >
+                <Ionicons name="md-more" color="white" size={24} />
+            </Tooltip>
         </View>),
         headerLeft: null,
         headerTitle: (<HeaderTitle text={'QR Scanner - Result'} textColor={colors.titleText} />),
@@ -22,6 +41,24 @@ class ResultsScreen extends Component{
         }
     });
 
+    componentDidMount = () => {
+        this.props.navigation.setParams({ 
+            renderMenu: this.renderMenu
+        });
+    };
+
+    get toggleMenu(){
+        return this.setState({
+            visibleMenu: !this.state.visibleMenu,
+        })
+    }
+    
+
+    get renderMenu(){
+        return (<PopUpMenu navigation={ this.props.navigation } />)
+    }
+
+    
     render(){
         return (
             <View
