@@ -4,6 +4,7 @@ import CameraContainer from '../../CameraContainer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
+import SvgComponents from '../../../components/Common/SvgComponents';
 
 class MainScreen extends Component{
     constructor(props){
@@ -19,8 +20,9 @@ class MainScreen extends Component{
                 onPress = { navigation.getParam("onToggleLight") }
                 style={styles.lightIconHolder}
             >
-                <MaterialCommunityIcons name={ ( navigation.getParam("lightActiveState") ) ? 'flashlight-off' : 'flashlight'  } size={24} color="#fff" />
-
+                <View style={{width: 24, height: 24}}>
+        {( navigation.getParam("lightActiveState") ) ? <SvgComponents.highlightOff /> : <SvgComponents.highlightOn /> }
+                </View>
             </TouchableOpacity>
         </View>
         ), 
@@ -66,18 +68,15 @@ const styles=StyleSheet.create({
         alignItems: 'center',
     },
     lightContainer: {
-        width: 30,
+        width: 50,
         height: 30,
-        marginRight: 14,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     lightIconHolder: {
         flex: 1,
+        paddingRight: 16,
         justifyContent: 'center',
-        alignItems: 'center',
-    },
-
+        alignItems: 'flex-end',
+    }
 
 })
 export default MainScreen;

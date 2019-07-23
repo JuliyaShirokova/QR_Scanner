@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import AppNavigator from './src/MyNavigator';
 import store from './src/store';
-import * as colors from './src/constants/colors';
+import { MenuProvider } from 'react-native-popup-menu';
 
 export default class App extends Component {
   render() {
@@ -14,7 +14,9 @@ export default class App extends Component {
           barStyle="light-content"
           translucent
         />
-        <AppNavigator />
+        <MenuProvider>
+          <AppNavigator />
+        </MenuProvider>  
       </Provider>  
     );
   }

@@ -1,18 +1,17 @@
-import React, { Component } from 'react'
-import { createAppContainer, createStackNavigator, createDrawerNavigator } from 'react-navigation';
-import {  StyleProp, TextStyle } from 'react-native';
+import React from 'react'
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 import MainScreen from '../components/Screens/MainScreen';
 import ResultsScreen from '../components/Screens/ResultsScreen';
 import HistoryScreen from '../components/Screens/HistoryScreen';
 import AboutScreen from '../components/Screens/AboutScreen';
-import Menu from '../components/Common/Menu';
-import  * as colors from '../constants/colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MainStack = createStackNavigator(
   {
     Main: { screen: MainScreen },
-    Results: { screen: ResultsScreen }
+    Results: { screen: ResultsScreen },
+    History: {screen: HistoryScreen},
+    About: {screen: AboutScreen}
   }
 );
 
@@ -55,7 +54,7 @@ const HistoryStack = createStackNavigator(
   }
 );
 
-const DrawerNavigator = createDrawerNavigator(
+const RootNavigator = createStackNavigator(
   {
     Main: {
       screen: MainStack
@@ -69,14 +68,8 @@ const DrawerNavigator = createDrawerNavigator(
       screen: AboutStack,
     },
   },
-  {
-    drawerPosition: "right",
-    contentComponent: Menu,
-    drawerWidth: 300, 
-    
-  }
-);
+ );
 
-const AppNavigator = createAppContainer(DrawerNavigator);
+const AppNavigator = createAppContainer(MainStack);
 
 export default AppNavigator;

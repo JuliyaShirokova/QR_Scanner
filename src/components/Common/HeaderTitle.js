@@ -12,10 +12,11 @@ export default HeaderTitle = (props) => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 16,
+        paddingTop: 4,
     },
     headerText: {
-        fontSize: 24,
-        lineHeight: 26,
+        fontSize: 22,
+        lineHeight: 24,
         fontFamily: fonts.HelveticaNeue,
     }
 })

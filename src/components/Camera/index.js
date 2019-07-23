@@ -7,16 +7,9 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   Alert,
-  Linking, 
-  Clipboard,
-  TextInput
 } from 'react-native';
 import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';
-import Communications from 'react-native-communications';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
   
@@ -31,7 +24,7 @@ class Camera extends React.Component {
         normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
         drawRectPosition: {
           x: Dimensions.get('window').width * 0.5 - 90,
-          y: Dimensions.get('window').height * 0.5 - 90,
+          y: Dimensions.get('window').height * 0.5 - 180,
         },
       },
       type: 'back',
@@ -53,23 +46,16 @@ class Camera extends React.Component {
     }
 
     touchToFocus(event) {
-      const { pageX, pageY } = event.nativeEvent;
-      const screenWidth = Dimensions.get('window').width;
-      const screenHeight = Dimensions.get('window').height;
-      const isPortrait = screenHeight > screenWidth;
-  
-      let x = pageX / screenWidth;
-      let y = pageY / screenHeight;
-      // Coordinate transform for portrait. See autoFocusPointOfInterest in docs for more info
-      if (isPortrait) {
-        x = pageY / screenHeight;
-        y = -(pageX / screenWidth) + 1;
-      }
+      let x = 0.5;
+      let y = 0.5;
   
       this.setState({
         autoFocusPoint: {
           normalized: { x, y },
-          drawRectPosition: { x: pageX, y: pageY },
+          drawRectPosition: {  
+            x: Dimensions.get('window').width * 0.5 - 90,
+            y: Dimensions.get('window').height * 0.5 - 180,
+          },
         },
       });
     }
@@ -93,144 +79,16 @@ class Camera extends React.Component {
             );
     };
 
-    urlify = (text) => {
-      var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-      return text.replace(urlRegex, function(url,b,c) {
-          var urlTransform = (c == 'www.') ? 'http://' + url : url;
-          return urlTransform;
-      }); 
-    }
-    /* openInBrowser = () => {
-      console.log('open in browser');
-      const url = `${this.urlify(this.state.barcodes)}`;
-      return Linking.canOpenURL(url)
-          .then((supported) => {
-              if (!supported) {
-              console.log("Can't handle url: " + url);
-              } else {
-              return Linking.openURL(url);
-              }
-          })
-          .catch((err) => console.error('An error occurred', err));
-    }
-    
-    clearBarcode = () => {
-      this.clearClipboard();
-      return this.setState({ barcodes: []})
-    }
-
-    getFormatedDate = (d) => {
-      const datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
-    d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-      return datestring;
-    }
-    getBarcodeMessageBody = () => {
-      const formatedDate = this.getFormatedDate(new Date());
-      const massage = `You were scanning this barcode ${formatedDate}. Barcode content: ${this.state.barcodes}`
-      return massage;
-    }
-    clearClipboard = async () => {
-      await Clipboard.setString('');
-    }
-    copyToClipboard = async (body) => {
-      await Clipboard.setString(body);
-      Alert.alert('Copied to Clipboard!', body);
-    };
-
-    showDetails = () => {
-      return this.setState({showDetails: !this.state.showDetails })
-    }
- */
-  /*   renderBarcodes = () => (
-      <View style={styles.barcodeContainer}>
-        <View
-          style={styles.barcodeContent}
-        >
-          <View style={styles.barcodeContentTop}>
-            <View style={styles.barcodeRow}>
-              <Text style={styles.barcodeShortText}>{this.state.barcodes}</Text>
-              <TouchableOpacity
-                onPress={this.showDetails}
-              >
-                <View style={styles.holderIcon}>
-                  <Icon name={this.getIconName(this.state.showDetails,'angle-down','angle-up')} size={iconSize} />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.barcodeContenDetail}>
-                {this.state.showDetails
-                 &&
-                <TextInput
-                  style={styles.barcodeTextArea}
-                  underlineColorAndroid="transparent"
-                  numberOfLines={5}
-                  multiline={true}
-                  scrollEnabled={true}
-                  value={JSON.stringify(this.state.barcodeObj, null, ' ')}
-                />}
-            </View>
-            
-          </View>
-          <View style={styles.barcodeTools}>
-            <View style={styles.barcodeButton}>
-              <TouchableOpacity
-                style={styles.barcodeButtonTouch}
-                onPress = { this.openInBrowser }
-              >
-                <MaterialIcons name='open-in-browser' size={iconSize} color={iconColor} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.barcodeButton}>
-              <TouchableOpacity
-                style={styles.barcodeButtonTouch} 
-                onPress={() => Communications.email(['email'],null,null,'Barcode',this.getBarcodeMessageBody())}>
-                <MaterialIcons name='email' size={iconSize} color={iconColor} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.barcodeButton}>
-              <TouchableOpacity
-                style={styles.barcodeButtonTouch} 
-                onPress={() => this.copyToClipboard(this.state.barcodes)}>
-                <MaterialIcons name='content-copy' size={iconSize} color={iconColor} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.barcodeButton}>
-              <TouchableOpacity
-                style={styles.barcodeButtonTouch}
-                onPress = { this.clearBarcode }
-              >
-                <MaterialIcons name='exit-to-app' size={iconSize} color={iconColor} />
-              </TouchableOpacity>
-            </View>
-            
-          </View>
-        </View>
-      </View>
-    );
- */
+   
     onCameraReadyHandle = () => {
 
     }
 
- /*    getIconName = (val, name1, name2) => {
-      return val ? name2 : name1;
-    }
-
-    getIconNameForFocus = (val, name1, name2) =>{
-      return val === 'on' ? name1 : name2
-    }
-
-    toggleLight = () => {
-      return this.setState({ 
-        lightActive: !this.state.lightActive 
-      });
-    }
- */
     renderCamera() {
-      const { canDetectText, canDetectBarcode } = this.state;
+      const { canDetectBarcode } = this.state;
       
       const drawFocusRingPosition = {
-        top: this.state.autoFocusPoint.drawRectPosition.y - 90,
+        top: this.state.autoFocusPoint.drawRectPosition.y,
         left: this.state.autoFocusPoint.drawRectPosition.x,
       };
       return (
@@ -281,37 +139,6 @@ class Camera extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/*<View style={{ bottom: 0 }}>
-            <View
-              style={{
-                height: 56,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-                alignSelf: 'flex-end',
-              }}
-            >
-              <TouchableOpacity
-                style={[styles.flipButton, { flex: 0.3, alignSelf: 'flex-end' }]}
-                onPress={this.toggleLight.bind(this)} 
-              >
-                <MaterialCommunityIcons name={this.getIconName(this.state.lightActive, 'flashlight', 'flashlight-off')} size={iconSize} color={iconContrastColor} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.flipButton, { flex: 0.3, alignSelf: 'flex-end' }]}
-                onPress={this.toggleFocus.bind(this)}
-              >
-                <MaterialIcons name={this.getIconNameForFocus(this.state.autoFocus, 'center-focus-strong', 'center-focus-weak')} size={iconSize} color={iconContrastColor} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.flipButton, styles.picButton, { flex: 0.3, alignSelf: 'flex-end' }]}
-                onPress={this.takePicture.bind(this)}
-              >
-                <MaterialIcons name='photo-camera' size={iconSize} color={iconContrastColor} />
-              </TouchableOpacity>
-            </View>
-          </View>
-            */}
-          {/*!!this.state.barcodes.length && this.renderBarcodes()*/}
         </RNCamera>
       );
     }
@@ -344,7 +171,7 @@ class Camera extends React.Component {
     },
     actionBlock: {
         width: '60%',
-        marginBottom: '10%'
+        marginBottom: Math.min(Dimensions.get('window').height*0.11, 83)
     },
     actionText: {
         fontFamily: fonts.HelveticaNeue,
@@ -418,14 +245,6 @@ class Camera extends React.Component {
     barcodeShortText: {
       fontSize: 18,
       color: '#000'
-    },
-    holderIcon: {
-      width: iconSize,
-      height: iconSize,
-      justifyContent: 'center',
-      alignItems: 'flex-end'
-    },
-    barcodeContentDetail: {
     },
     barcodeTextArea: {
       fontSize: 14,

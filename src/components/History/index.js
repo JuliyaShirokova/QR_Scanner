@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, SectionList, StyleSheet, Alert, Linking, Clipboard} from 'react-native';
+import {View, Text, TouchableOpacity, SectionList, StyleSheet, Alert, Linking, Clipboard, Dimensions} from 'react-native';
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -188,7 +188,7 @@ const styles=StyleSheet.create({
     actionButtons: {
         paddingHorizontal: 16,
         marginTop: 10,
-        marginBottom: '10%',
+        marginBottom: Math.min((Dimensions.get('window').height*0.11), 86),
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

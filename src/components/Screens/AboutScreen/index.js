@@ -2,17 +2,12 @@ import React, { Component } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import HeaderTitle from '../../Common/HeaderTitle';
 import About from '../../About';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as colors from '../../../constants/colors';
-import * as fonts from '../../../constants/fonts';
+import PopUpMenu from '../../Common/PopUpMenu';
 
 class AboutScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
-        headerRight: (<View style={styles.menuContainer}>
-            <TouchableOpacity style={styles.manuIconHolder} onPress = {() => navigation.openDrawer()}>
-                <Ionicons name="md-more" color={colors.white} size={24} />
-            </TouchableOpacity>
-        </View>),
+        headerRight: (<View>{navigation.getParam('renderMenu')}</View>),
         headerLeft: null,
         headerTitle: (<HeaderTitle text={'QR Scanner - About'} textColor={colors.titleText} />),
         headerStyle: { 
@@ -21,6 +16,16 @@ class AboutScreen extends Component{
             backgroundColor: colors.mainContrast,
         }
     });
+    componentDidMount = () => {
+        this.props.navigation.setParams({
+          renderMenu: this.renderMenu
+        })
+      };
+      
+    get renderMenu(){
+          return (<PopUpMenu navigation={this.props.navigation} />)
+    }
+  
 
     render(){
         return (
