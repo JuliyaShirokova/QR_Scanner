@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, SectionList, StyleSheet, Alert, Linking, C
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
 import { ScrollView } from 'react-native-gesture-handler';
-import { tsImportEqualsDeclaration } from '@babel/types';
+import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 
 
 class History extends Component{
@@ -59,7 +59,7 @@ class History extends Component{
 
     getItemStyle = ( elKey ) => {
     
-        const bColor = (elKey == this.state.selectedKey) ? '#919191' : 'transparent'; 
+        const bColor = (elKey == this.state.selectedKey) ? colors.selectBackground : 'transparent'; 
         return {
             backgroundColor: bColor
         }
@@ -135,7 +135,7 @@ class History extends Component{
                 <View
                     style={styles.historyContent}
                 >
-                    <ScrollView style={{flex: 1}}>
+                    <ScrollView style={style=styles.fullScreen}>
                         {this.getList()}
                     </ScrollView>
                 </View>
@@ -168,27 +168,33 @@ class History extends Component{
 }
 const styles=StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
+        height: '100%',
         justifyContent: 'space-between',
     },
+    fullScreen: {
+        width: '100%',
+        height: '100%',
+    },
     historyContent: {
-        flex: 1,
-        marginTop: 24,
+        width: '100%',
+        height: '100%',
+        marginTop: moderateScale(24),
     },
     historyItem: {
-        paddingHorizontal: 26,
+        paddingHorizontal: moderateScale(26),
     },
     historyItemText: {
         fontFamily: fonts.HelveticaNeue,
-        fontSize: 16,
-        lineHeight: 23,
+        fontSize: moderateScale(16),
+        lineHeight: moderateScale(23),
         color: colors.contentText,
-        paddingVertical: 8,
+        paddingVertical: moderateScale(8),
     },
     actionButtons: {
-        paddingHorizontal: 16,
-        marginTop: 10,
-        marginBottom: Math.min((Dimensions.get('window').height*0.11), 86),
+        paddingHorizontal: moderateScale(16),
+        marginTop: moderateScale(10),
+        marginBottom: moderateScale(86),
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -197,15 +203,15 @@ const styles=StyleSheet.create({
     },
     actionButton: {
         width: '100%',
-        paddingVertical: 10,
+        paddingVertical: moderateScale(10),
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
         alignItems: 'center'
     },
     actionButtonText: {
         fontFamily: fonts.HelveticaNeueMedium, 
-        fontSize: 18,
-        lineHeight: 20,
+        fontSize: moderateScale(18),
+        lineHeight: moderateScale(20),
         color: colors.white,
     
     }

@@ -4,7 +4,9 @@ import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
 import ResultContainer from '../../ResultContainer';
 import PopUpMenu from '../../Common/PopUpMenu';
-  
+import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+
+
   class ResultsScreen extends Component{
 
     static navigationOptions = ({ navigation }) => ({
@@ -12,9 +14,9 @@ import PopUpMenu from '../../Common/PopUpMenu';
         headerLeft: null,
         headerTitle: (<HeaderTitle text={'QR Scanner - Result'} textColor={colors.titleText} />),
         headerStyle: { 
-            height: 80,
-            paddingTop: 26,
-            backgroundColor: colors.mainContrast,
+            height: moderateScale(90),
+            paddingTop: moderateScale(30),
+            backgroundColor: colors.mainContrastWithoutOpacity,
         }
     });
 
@@ -40,8 +42,8 @@ import PopUpMenu from '../../Common/PopUpMenu';
 }
 const styles=StyleSheet.create({
     container: {
-        flex: 1,
-        paddingHorizontal: 16,
+        width: '100%',
+        height: '100%',
     },
 })
 export default ResultsScreen;

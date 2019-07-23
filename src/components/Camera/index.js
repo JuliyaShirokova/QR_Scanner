@@ -12,19 +12,16 @@ import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
-  
+import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 
-const iconSize = 25;
-const iconColor='#000';
-const iconContrastColor = 'white';
 class Camera extends React.Component {
     state = {
       autoFocus: 'on',
       autoFocusPoint: {
-        normalized: { x: 0.5, y: 0.5 }, // normalized values required for autoFocusPointOfInterest
+        normalized: { x: 0.5, y: 0.48 }, // normalized values required for autoFocusPointOfInterest
         drawRectPosition: {
-          x: Dimensions.get('window').width * 0.5 - 90,
-          y: Dimensions.get('window').height * 0.5 - 180,
+          x: Dimensions.get('window').width * 0.5 - moderateScale(100),
+          y: Dimensions.get('window').height * 0.48 - moderateScale(200),
         },
       },
       type: 'back',
@@ -47,14 +44,14 @@ class Camera extends React.Component {
 
     touchToFocus(event) {
       let x = 0.5;
-      let y = 0.5;
+      let y = 0.48;
   
       this.setState({
         autoFocusPoint: {
           normalized: { x, y },
           drawRectPosition: {  
-            x: Dimensions.get('window').width * 0.5 - 90,
-            y: Dimensions.get('window').height * 0.5 - 180,
+            x: Dimensions.get('window').width * 0.5 - moderateScale(100),
+            y: Dimensions.get('window').height * 0.48 - moderateScale(200),
           },
         },
       });
@@ -97,7 +94,10 @@ class Camera extends React.Component {
             this.camera = ref;
           }}
           style={{
-            flex: 1,
+            width: '100%',
+            height: '100%',
+            borderWidth: 2,
+            borderColor: 'yellow',
             justifyContent: 'space-between',
           }}
           flashMode={this.props.lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
@@ -165,130 +165,36 @@ class Camera extends React.Component {
         backgroundColor: '#000',
     },
     errorText: {
-        fontSize: 18,
-        padding: 20,
+        fontSize: moderateScale(18),
+        padding: moderateScale(18),
         color: 'white'
     },
     actionBlock: {
         width: '60%',
-        marginBottom: Math.min(Dimensions.get('window').height*0.11, 83)
+        marginBottom: moderateScale(83)
     },
     actionText: {
         fontFamily: fonts.HelveticaNeue,
-        fontSize: 14,
-        lineHeight: 20,
+        fontSize: moderateScale(14),
+        lineHeight: moderateScale(20),
         textAlign: 'center'
     },
     actionButtonHolder: {
         width: '100%',
-        paddingVertical: 8,
-        marginTop: 9,
+        paddingVertical: moderateScale(8),
+        marginTop: moderateScale(9),
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
         alignItems: 'center'
     },
     actionButtonText: {
         fontFamily: fonts.HelveticaNeueMedium,
-        fontSize: 18,
+        fontSize: moderateScale(18),
         color: colors.white
-    },
-    flipButton: {
-      width: 150,
-      height: 40,
-      marginHorizontal: 2,
-      marginBottom: 10,
-      marginTop: 10,
-      borderRadius: 8,
-      borderColor: 'white',
-      borderWidth: 1,
-      padding: 5,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     autoFocusBox: {
       position: 'absolute',
-      height: 180,
-      width: 180,
-    },
-    flipText: {
-      flex: 1,
-      color: 'white',
-      fontSize: 15,
-    },
-    picButton: {
-      backgroundColor: 'darkseagreen',
-    },
-    barcodeContainer: {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      left: 0,
-      top: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    barcodeContent: {
-      width: '80%',
-      paddingTop: 20,
-      backgroundColor: 'white'
-    },
-    barcodeContentTop: {
-      paddingHorizontal: 15,
-      paddingBottom: 15,
-    },
-    barcodeRow: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    },
-    barcodeShortText: {
-      fontSize: 18,
-      color: '#000'
-    },
-    barcodeTextArea: {
-      fontSize: 14,
-      maxHeight: 100,
-    },
-    barcodeTools: {
-      width: '100%',
-      flexDirection: 'row',
-      borderColor: '#ccc',
-      borderTopWidth: 1,
-    },
-    barcodeButton: {
-      flex: 1,
-      height: 56,
-    },
-    barcodeButtonTouch: {
-      width: '100%',
-      height: '100%',
-      padding: 20,
-    },
-    deleteText: {
-      color: 'red'
-    },
-    text: {
-      padding: 10,
-      borderWidth: 2,
-      borderRadius: 2,
-      position: 'absolute',
-      borderColor: '#F00',
-      justifyContent: 'center',
-    },
-    textContainer: {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      left: 0,
-      top: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    textBlock: {
-      color: 'white',
-      position: 'absolute',
-      textAlign: 'center',
-      backgroundColor: 'transparent',
+      height: moderateScale(200),
+      width: moderateScale(200),
     },
   });

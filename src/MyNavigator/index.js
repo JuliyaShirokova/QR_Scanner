@@ -8,8 +8,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MainStack = createStackNavigator(
   {
-    Main: { screen: MainScreen },
     Results: { screen: ResultsScreen },
+    Main: { screen: MainScreen },
     History: {screen: HistoryScreen},
     About: {screen: AboutScreen}
   }

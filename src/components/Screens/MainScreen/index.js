@@ -5,6 +5,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
 import SvgComponents from '../../../components/Common/SvgComponents';
+import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+
 
 class MainScreen extends Component{
     constructor(props){
@@ -18,9 +20,9 @@ class MainScreen extends Component{
         headerRight: (<View style={styles.lightContainer}>
             <TouchableOpacity
                 onPress = { navigation.getParam("onToggleLight") }
-                style={styles.lightIconHolder}
+                style={styles.lightIconTouch}
             >
-                <View style={{width: 24, height: 24}}>
+                <View style={styles.lightIconHolder}>
         {( navigation.getParam("lightActiveState") ) ? <SvgComponents.highlightOff /> : <SvgComponents.highlightOn /> }
                 </View>
             </TouchableOpacity>
@@ -28,8 +30,8 @@ class MainScreen extends Component{
         ), 
         headerTitle: (<HeaderTitle text={'QR Scanner'} textColor={colors.titleText} />),
         headerStyle: { 
-            height: 80,
-            paddingTop: 26,
+            height: moderateScale(90),
+            paddingTop: moderateScale(30),
             backgroundColor: colors.mainContrast,
         }
     });
@@ -68,14 +70,19 @@ const styles=StyleSheet.create({
         alignItems: 'center',
     },
     lightContainer: {
-        width: 50,
-        height: 30,
+        width: moderateScale(52),
+        paddingTop: moderateScale(2),
+        height: moderateScale(26),
     },
-    lightIconHolder: {
+    lightIconTouch: {
         flex: 1,
-        paddingRight: 16,
+        paddingRight: moderateScale(16),
         justifyContent: 'center',
         alignItems: 'flex-end',
+    },
+    lightIconHolder: {
+        width: moderateScale(24),
+        height: moderateScale(24),
     }
 
 })

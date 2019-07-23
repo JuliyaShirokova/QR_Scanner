@@ -4,6 +4,7 @@ import HeaderTitle from '../../Common/HeaderTitle';
 import About from '../../About';
 import * as colors from '../../../constants/colors';
 import PopUpMenu from '../../Common/PopUpMenu';
+import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 
 class AboutScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
@@ -11,8 +12,8 @@ class AboutScreen extends Component{
         headerLeft: null,
         headerTitle: (<HeaderTitle text={'QR Scanner - About'} textColor={colors.titleText} />),
         headerStyle: { 
-            height: 80,
-            paddingTop: 26,
+            height: moderateScale(90),
+            paddingTop: moderateScale(30),
             backgroundColor: colors.mainContrast,
         }
     });
@@ -39,20 +40,8 @@ class AboutScreen extends Component{
 }
 const styles=StyleSheet.create({
     container: {
-        flex: 1,
-        paddingHorizontal: 16,
-    },
-    menuContainer: {
-        width: 30,
-        height: 30,
-        marginRight: 14,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    manuIconHolder: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '100%',
+        height: '100%',
     },
 })
 export default AboutScreen;

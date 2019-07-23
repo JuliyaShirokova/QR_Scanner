@@ -9,14 +9,14 @@ class Result extends Component{
         super(props);
 
         this.state={
-            result: '', 
+            result: 'No results', 
             disableMove: true,
             disableCopy: false,
         }
     }
-    componentDidMount(){
+    componentWillMount(){
 
-        this.setResult();
+    //    this.setResult();
     }
 
     canOpen = (text) => {
@@ -32,9 +32,11 @@ class Result extends Component{
     }
 
     setResult = async () => {
+    
         const { results } = this.props;
-        const last = results.length-1;
-        const res = results[last] || 'No results';
+    
+        const last = relults.length ? results.length-1 : null;
+        const res = last ? results[last] : 'No results';
 
         const isURL = await this.canOpen(res);      
        
@@ -95,7 +97,7 @@ class Result extends Component{
                             onPress={() => this.copyToClipboard(this.state.result)}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
-                            activeOpacity={ () => this.getOpacity(this.state.disableCopy) }
+                            activeOpacity={ this.getOpacity(this.state.disableCopy) }
                         >
                             <Text style={styles.actionButtonText}>COPY</Text>
                         </TouchableOpacity>
@@ -105,7 +107,7 @@ class Result extends Component{
                             onPress={() => this.onMove()}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
-                            activeOpacity={ ()=> this.getOpacity(this.state.disableMove) }
+                            activeOpacity={this.getOpacity(this.state.disableMove) }
                         >    
                             <Text style={styles.actionButtonText}>MOVE</Text>
                         </TouchableOpacity>
