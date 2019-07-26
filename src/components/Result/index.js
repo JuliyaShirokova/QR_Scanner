@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Clipboard, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Dimensions, Clipboard} from 'react-native';
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
-
+import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import getBottomPadding from '../../utilits/getBotomPadding';
+import urlify from '../../utilits/urlify'
 
 class Result extends Component{
     constructor(props){
         super(props);
 
         this.state={
-            result: 'No results', 
+            result: '', 
             disableMove: true,
             disableCopy: false,
         }
-    }
-    componentWillMount(){
-
-    //    this.setResult();
+        this._setValues();
     }
 
+    _setValues = async () => {
+        const { results } = this.props;
+        const isURL = await this.canOpen(results);
+        return this.setState({
+            disableMove: !isURL,
+            result: results
+        })
+    }
+    
     canOpen = (text) => {
         return Linking.canOpenURL(text)
             .then((supported) => {
@@ -31,35 +39,12 @@ class Result extends Component{
             })
     }
 
-    setResult = async () => {
-    
-        const { results } = this.props;
-    
-        const last = relults.length ? results.length-1 : null;
-        const res = last ? results[last] : 'No results';
-
-        const isURL = await this.canOpen(res);      
-       
-        return this.setState({
-            disableMove: !isURL,
-            result: res
-        });
-    }
-
     getResult = () => this.state.result;
 
     
-    urlify = (text) => {
-        var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-        return text.replace(urlRegex, function(url,b,c) {
-            var urlTransform = (c == 'www.') ? 'http://' + url : url;
-            return urlTransform;
-        }); 
-    }
-
     onMove = () => {
         const curr = this.state.result;
-        const url = `${this.urlify(curr)}`;
+        const url = `${urlify(curr)}`;
         return Linking.canOpenURL(url)
             .then((supported) => {
                 if (!supported) {
@@ -97,7 +82,6 @@ class Result extends Component{
                             onPress={() => this.copyToClipboard(this.state.result)}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
-                            activeOpacity={ this.getOpacity(this.state.disableCopy) }
                         >
                             <Text style={styles.actionButtonText}>COPY</Text>
                         </TouchableOpacity>
@@ -107,7 +91,6 @@ class Result extends Component{
                             onPress={() => this.onMove()}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
-                            activeOpacity={this.getOpacity(this.state.disableMove) }
                         >    
                             <Text style={styles.actionButtonText}>MOVE</Text>
                         </TouchableOpacity>
@@ -119,37 +102,41 @@ class Result extends Component{
 }
 const styles=StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
+        height: '100%',
         justifyContent: 'space-between',
+        paddingHorizontal: moderateScale(20),
     },
     resultContent: {
-        marginTop: 35,
+        flex: 1,
+        marginTop: moderateScale(37),
     },
     resultText: {
         fontFamily: fonts.HelveticaNeue,
-        fontSize: 20,
+        fontSize: moderateScale(20),
         color: colors.contentText,
     },
     actionButtons: {
-        marginTop: 10,
-        marginBottom: Math.min((Dimensions.get('window').height*0.11), 86),
+        marginTop: moderateScale(10),
+        marginBottom: Math.min(moderateScale(getBottomPadding(11.2)), moderateScale(86)),
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
     actionButtonHolder: {
-        width: '44%',
+        width: Math.min(Dimensions.get('window').width*0.406, moderateScale(146)),
+        height: moderateScale(40)
     },
     actionButton: {
         width: '100%',
-        paddingVertical: 10,
+        height: '100%',
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
         alignItems: 'center'
     },
     actionButtonText: {
         fontFamily: fonts.HelveticaNeueMedium, 
-        fontSize: 18,
-        lineHeight: 20,
+        fontSize: moderateScale(18),
+        lineHeight: moderateScale(20),
         color: colors.white,
     
     }

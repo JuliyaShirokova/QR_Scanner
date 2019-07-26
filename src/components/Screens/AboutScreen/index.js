@@ -9,7 +9,7 @@ import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 class AboutScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View>{navigation.getParam('renderMenu')}</View>),
-        headerLeft: null,
+        headerTintColor: colors.white,
         headerTitle: (<HeaderTitle text={'QR Scanner - About'} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),

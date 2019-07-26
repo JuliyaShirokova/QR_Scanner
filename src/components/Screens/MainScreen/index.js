@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, StatusBar, PixelRatio} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, StatusBar, Dimensions} from 'react-native';
 import CameraContainer from '../../CameraContainer';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
+import PopUpMenu from '../../Common/PopUpMenu';
 import SvgComponents from '../../../components/Common/SvgComponents';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 
@@ -17,15 +17,18 @@ class MainScreen extends Component{
     }
     
     static navigationOptions = ({ navigation }) => ({
-        headerRight: (<View style={styles.lightContainer}>
-            <TouchableOpacity
-                onPress = { navigation.getParam("onToggleLight") }
-                style={styles.lightIconTouch}
-            >
-                <View style={styles.lightIconHolder}>
-        {( navigation.getParam("lightActiveState") ) ? <SvgComponents.highlightOff /> : <SvgComponents.highlightOn /> }
+        headerRight: (<View style={{flexDirection: 'row'}}>
+                <View style={styles.lightContainer}>
+                    <TouchableOpacity
+                        onPress = { navigation.getParam("onToggleLight") }
+                        style={styles.lightIconTouch}
+                    >
+                        <View style={styles.lightIconHolder}>
+                            {( navigation.getParam("lightActiveState") ) ? <SvgComponents.highlightOff /> : <SvgComponents.highlightOn /> }
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
+                <View>{navigation.getParam('renderMenu')}</View>
         </View>
         ), 
         headerTitle: (<HeaderTitle text={'QR Scanner'} textColor={colors.titleText} />),
@@ -39,9 +42,14 @@ class MainScreen extends Component{
     componentDidMount() {
         this.props.navigation.setParams({ 
             lightActiveState: this.state.lightActive,
-            onToggleLight: this.toggleLight.bind(this)
+            onToggleLight: this.toggleLight.bind(this),
+            renderMenu: this.renderMenu
         });
     }
+    get renderMenu(){
+        return (<PopUpMenu navigation={this.props.navigation} />)
+    }
+
 
     toggleLight = () => {
         this.setState({lightActive: !this.state.lightActive }, () => {
@@ -65,18 +73,22 @@ class MainScreen extends Component{
 }
 const styles=StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
+        height: Dimensions.get('screen').height,
+        position: 'absolute',
+        top: -moderateScale(90),
+        left: 0,
         justifyContent: 'center',
         alignItems: 'center',
     },
     lightContainer: {
-        width: moderateScale(52),
+        width: moderateScale(28),
         paddingTop: moderateScale(2),
-        height: moderateScale(26),
+        height: moderateScale(30),
     },
     lightIconTouch: {
-        flex: 1,
-        paddingRight: moderateScale(16),
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'flex-end',
     },

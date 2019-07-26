@@ -6,13 +6,16 @@ import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 export default HeaderTitle = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={[styles.headerText, {color: props.textColor}]}>{props.text+'H'}</Text>
+            <Text style={[styles.headerText, {color: props.textColor}]}>{props.text}</Text>
         </View>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: moderateScale(16),
+        width: '100%',
+        paddingLeft: moderateScale(16),
+        paddingRight: 0,
+        marginHorizontal: 0
     },
     headerText: {
         fontSize: moderateScale(24),

@@ -13,15 +13,16 @@ import { RNCamera } from 'react-native-camera';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import getBottomNavigationHeight from '../../utilits/getBottomNavigationHeight';
 
 class Camera extends React.Component {
     state = {
       autoFocus: 'on',
       autoFocusPoint: {
-        normalized: { x: 0.5, y: 0.48 }, // normalized values required for autoFocusPointOfInterest
+        normalized: { x: 0.5, y: 0.484 }, // normalized values required for autoFocusPointOfInterest
         drawRectPosition: {
           x: Dimensions.get('window').width * 0.5 - moderateScale(100),
-          y: Dimensions.get('window').height * 0.48 - moderateScale(200),
+          y: Dimensions.get('window').height * 0.484 - moderateScale(110),
         },
       },
       type: 'back',
@@ -44,14 +45,14 @@ class Camera extends React.Component {
 
     touchToFocus(event) {
       let x = 0.5;
-      let y = 0.48;
+      let y = 0.484;
   
       this.setState({
         autoFocusPoint: {
           normalized: { x, y },
           drawRectPosition: {  
             x: Dimensions.get('window').width * 0.5 - moderateScale(100),
-            y: Dimensions.get('window').height * 0.48 - moderateScale(200),
+            y: Dimensions.get('window').height * 0.484 - moderateScale(110),
           },
         },
       });
@@ -96,8 +97,6 @@ class Camera extends React.Component {
           style={{
             width: '100%',
             height: '100%',
-            borderWidth: 2,
-            borderColor: 'yellow',
             justifyContent: 'space-between',
           }}
           flashMode={this.props.lightActive ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
@@ -107,6 +106,7 @@ class Camera extends React.Component {
           zoom={0}
           ratio={this.state.ratio}
           focusDepth={0}
+          captureAudio={false}
           androidCameraPermissionOptions={
               {title: 'Permission to use camera',
                message: 'We need your permission to use your camera phone'}
@@ -117,17 +117,17 @@ class Camera extends React.Component {
           <View style={StyleSheet.absoluteFill}>
             <View style={[styles.autoFocusBox, drawFocusRingPosition]}>
             <View style={{flex: 1, position: 'relative'}}>
-                <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
-                <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: '#000', borderRightWidth: 4}}></View>
-                <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
-                <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: '#000', borderBottomWidth: 4}}></View>
+                <View style={{position: 'absolute', top: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: colors.white, borderRightWidth: 4}}></View>
+                <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', height: 42, borderLeftWidth: 4, borderColor: colors.white, borderRightWidth: 4}}></View>
+                <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: colors.white, borderBottomWidth: 4}}></View>
+                <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, height: '100%', width: 42, borderTopWidth: 4, borderColor: colors.white, borderBottomWidth: 4}}></View>
               </View>
             </View>
             <TouchableWithoutFeedback onPress={this.touchToFocus.bind(this)}>
               <View style={{ flex: 1 }} />
             </TouchableWithoutFeedback>
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+          <View style={styles.actionContent}>
             <View style={styles.actionBlock}>
               <Text style={styles.actionText}>Point the camera at the QR code and press</Text>
               <TouchableOpacity 
@@ -157,7 +157,7 @@ class Camera extends React.Component {
     }
   }
   export default withNavigationFocus(Camera);
-
+  
   const styles = StyleSheet.create({
     container: {
         width: '100%',
@@ -166,22 +166,33 @@ class Camera extends React.Component {
     },
     errorText: {
         fontSize: moderateScale(18),
-        padding: moderateScale(18),
+        paddingVertical: moderateScale(100),
+        paddingHorizontal: moderateScale(20),
         color: 'white'
     },
+    actionContent: { 
+        width: '100%',
+        height: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
     actionBlock: {
-        width: '60%',
-        marginBottom: moderateScale(83)
+        width: '58%',
+        marginBottom: Math.min(Dimensions.get('screen').height*0.105, moderateScale(83))
     },
     actionText: {
         fontFamily: fonts.HelveticaNeue,
         fontSize: moderateScale(14),
         lineHeight: moderateScale(20),
+        color: colors.white,
+        textShadowColor: 'rgba(0, 0, 0, 0.45)',
+        textShadowOffset: {width: 1, height: 1},
+        textShadowRadius: 4,
         textAlign: 'center'
     },
     actionButtonHolder: {
         width: '100%',
-        paddingVertical: moderateScale(8),
+        height: moderateScale(40),
         marginTop: moderateScale(9),
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
@@ -190,6 +201,7 @@ class Camera extends React.Component {
     actionButtonText: {
         fontFamily: fonts.HelveticaNeueMedium,
         fontSize: moderateScale(18),
+        lineHeight: moderateScale(20),
         color: colors.white
     },
     autoFocusBox: {

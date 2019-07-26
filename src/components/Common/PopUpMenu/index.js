@@ -10,13 +10,15 @@ import {
     MenuTrigger,
   } from 'react-native-popup-menu';
 import * as colors from '../../../constants/colors';
+import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+
 
 const PopUpMenu = ( props ) => {    
     return (<Menu>
                 <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
                         <Ionicons name='md-more' color='white' size={24} />
                 </MenuTrigger>
-                <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
+                <MenuOptions customStyles={{optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
                     <MenuOption onSelect={() => props.navigation.navigate('History')}>
                         <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
                             <Text style={styles.menuItemText}>History</Text>
@@ -32,19 +34,30 @@ const PopUpMenu = ( props ) => {
     )}
 
 const  styles = StyleSheet.create({
+    optionsContainer: {
+        width: moderateScale(180),
+        alignItems: 'flex-start',
+        padding: 0, 
+        margin: 0
+    },
     optionsWrapper: {
-        elevation: 5,
-        paddingVertical: 7,
+        flex: 1,
+        padding: 0,
+        margin: 0,
+        elevation: 2,
+        paddingVertical: moderateScale(7),
     },
     menuTrigger: {
-        width: 48,
-        height: 30,
-        paddingRight: 16,
+        width: moderateScale(46),
+        height: moderateScale(30),
+        paddingTop: moderateScale(2),
+        paddingRight: moderateScale(22),
         alignItems: 'flex-end',
         justifyContent: 'center',
     },
     menuItemHolder: {
-        marginHorizontal: 14,
+        width: '100%',
+        marginHorizontal: moderateScale(14),
         alignItems: 'flex-end',
     },
     borderBottomStyle: {
@@ -53,10 +66,9 @@ const  styles = StyleSheet.create({
     },
     menuItemText: {
         fontFamily: fonts.HelveticaNeue,
-        fontSize: 14,
-        lineHeight: 16,
-        paddingBottom: 10,
-        paddingTop: 10,
+        fontSize: moderateScale(14),
+        lineHeight: moderateScale(16),
+        paddingVertical: moderateScale(10),
     }
 
 })

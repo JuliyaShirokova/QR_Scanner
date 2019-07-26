@@ -4,7 +4,8 @@ import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
 import { ScrollView } from 'react-native-gesture-handler';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
-
+import getBottomPadding from '../../utilits/getBotomPadding';
+import urlify from '../../utilits/urlify';
 
 class History extends Component{
     constructor(props){
@@ -40,15 +41,14 @@ class History extends Component{
         const valData = ( isSelected ) ? '' : elData; 
         const isEmpty = (valKey == '') ? true : false;
         
-        const url = `${this.urlify(valData)}`;
-        //Alert.alert('val data', valData.toString())
+        const url = `${urlify(valData)}`;
+        
         if ( url != ''){
             isURL = await this.canOpen(url);      
         }else{
             isURL=false;
         }
         
-       // Alert.alert("onItem", isURL.toString());
         this.setState({
             disableMove: !isURL,
             disableCopy: isEmpty,
@@ -65,6 +65,15 @@ class History extends Component{
         }
     }
 
+    getItemTextStyle = ( elKey ) => {
+    
+        const tColor = (elKey == this.state.selectedKey) ? colors.white : colors.black; 
+        return {
+            color: tColor
+        }
+    }
+
+
     renderHistoryItem = (item, index) => {
         const elKey = item.toString()+index;
         return (
@@ -76,7 +85,7 @@ class History extends Component{
                     style={[styles.historyItem, this.getItemStyle( elKey )]}
                     onPress={() => this.onItemPress( elKey, item ) }
                 >
-                    <Text style={styles.historyItemText}>{ item }</Text>
+                    <Text style={[styles.historyItemText, this.getItemTextStyle( elKey )]}>{ item }</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -89,6 +98,7 @@ class History extends Component{
     getList = () => {
         const { results } = this.props;
         const list = (<SectionList
+                        style={styles.sectionList}
                         renderItem={({item, index, section}) => this.renderHistoryItem(item, index)}
                         sections={this.prepareData( results )}
                         keyExtractor={(item, index) => item + index}
@@ -96,17 +106,10 @@ class History extends Component{
                 )
         return list || 'No results';
     }
-    urlify = (text) => {
-        var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-        return text.replace(urlRegex, function(url,b,c) {
-            var urlTransform = (c == 'www.') ? 'http://' + url : url;
-            return urlTransform;
-        }); 
-    }
 
     onMove = () => {
         const curr = this.state.selectedData;    
-        const url = `${this.urlify(curr)}`;
+        const url = `${urlify(curr)}`;
         return Linking.canOpenURL(url)
             .then((supported) => {
                 if (!supported) {
@@ -135,7 +138,7 @@ class History extends Component{
                 <View
                     style={styles.historyContent}
                 >
-                    <ScrollView style={style=styles.fullScreen}>
+                    <ScrollView style={style=styles.scrollStyle}>
                         {this.getList()}
                     </ScrollView>
                 </View>
@@ -146,7 +149,6 @@ class History extends Component{
                             onPress={() => this.copyToClipboard('text')}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
-                            activeOpacity={ () => this.getOpacity(this.state.disableCopy) }
                         >
                             <Text style={styles.actionButtonText}>COPY</Text>
                         </TouchableOpacity>
@@ -156,7 +158,6 @@ class History extends Component{
                             onPress={() => this.onMove()}
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
-                            activeOpacity={ ()=> this.getOpacity(this.state.disableMove) }
                         >    
                             <Text style={styles.actionButtonText}>MOVE</Text>
                         </TouchableOpacity>
@@ -172,14 +173,15 @@ const styles=StyleSheet.create({
         height: '100%',
         justifyContent: 'space-between',
     },
-    fullScreen: {
-        width: '100%',
-        height: '100%',
-    },
     historyContent: {
-        width: '100%',
-        height: '100%',
-        marginTop: moderateScale(24),
+        flex: 1,
+    },
+    scrollStyle: {
+        flex: 1,
+        paddingTop: moderateScale(16),
+    },
+    sectionList: {
+        paddingBottom: moderateScale(28)
     },
     historyItem: {
         paddingHorizontal: moderateScale(26),
@@ -189,21 +191,23 @@ const styles=StyleSheet.create({
         fontSize: moderateScale(16),
         lineHeight: moderateScale(23),
         color: colors.contentText,
-        paddingVertical: moderateScale(8),
+        paddingTop: moderateScale(9),
+        paddingBottom: moderateScale(8)
     },
     actionButtons: {
-        paddingHorizontal: moderateScale(16),
         marginTop: moderateScale(10),
-        marginBottom: moderateScale(86),
+        marginBottom: Math.min(moderateScale(getBottomPadding(11.2)), moderateScale(86)),
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingHorizontal: moderateScale(20),
     },
     actionButtonHolder: {
-        width: '44%',
-    },
+        width: Math.min(Dimensions.get('window').width*0.406, moderateScale(146)),
+        height: moderateScale(40)
+   },
     actionButton: {
         width: '100%',
-        paddingVertical: moderateScale(10),
+        height: '100%',
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
         alignItems: 'center'

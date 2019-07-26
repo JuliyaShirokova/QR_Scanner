@@ -12,7 +12,7 @@ export default class App extends Component {
         <StatusBar
           backgroundColor="transparent"
           barStyle="light-content"
-          translucent
+          translucent={true}
         />
         <MenuProvider>
           <AppNavigator />

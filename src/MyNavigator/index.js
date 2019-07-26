@@ -8,10 +8,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MainStack = createStackNavigator(
   {
-    Results: { screen: ResultsScreen },
     Main: { screen: MainScreen },
+    Results: { screen: ResultsScreen },
     History: {screen: HistoryScreen},
     About: {screen: AboutScreen}
+  }, 
+  {
+    initialRouteName: 'Results'
   }
 );
 

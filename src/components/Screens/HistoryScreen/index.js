@@ -10,12 +10,12 @@ import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 class HistoryScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View>{navigation.getParam('renderMenu')}</View>),
-        headerLeft: null,
+        headerTintColor: colors.white,
         headerTitle: (<HeaderTitle text={'QR Scanner - History'} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
-            backgroundColor: colors.mainContrast,
+            backgroundColor: colors.mainContrastWithoutOpacity,
         }
     });
 

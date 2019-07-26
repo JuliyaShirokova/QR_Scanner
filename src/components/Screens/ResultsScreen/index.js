@@ -11,7 +11,7 @@ import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View>{navigation.getParam('renderMenu')}</View>),
-        headerLeft: null,
+        headerTintColor: colors.white,
         headerTitle: (<HeaderTitle text={'QR Scanner - Result'} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
