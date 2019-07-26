@@ -14,7 +14,7 @@ const MainStack = createStackNavigator(
     About: {screen: AboutScreen}
   }, 
   {
-    initialRouteName: 'Results'
+    initialRouteName: 'Main'
   }
 );
 

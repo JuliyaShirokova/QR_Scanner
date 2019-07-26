@@ -124,14 +124,16 @@ const styles=StyleSheet.create({
     },
     actionButtonHolder: {
         width: Math.min(Dimensions.get('window').width*0.406, moderateScale(146)),
-        height: moderateScale(40)
+        height: moderateScale(40),
+        borderRadius: moderateScale(40)/2
     },
     actionButton: {
         width: '100%',
         height: '100%',
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: moderateScale(40)/2    
     },
     actionButtonText: {
         fontFamily: fonts.HelveticaNeueMedium, 

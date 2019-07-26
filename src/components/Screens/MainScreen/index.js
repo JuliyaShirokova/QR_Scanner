@@ -6,6 +6,7 @@ import * as colors from '../../../constants/colors';
 import PopUpMenu from '../../Common/PopUpMenu';
 import SvgComponents from '../../../components/Common/SvgComponents';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import SplashScreen from 'react-native-splash-screen';
 
 
 class MainScreen extends Component{
@@ -40,6 +41,7 @@ class MainScreen extends Component{
     });
     
     componentDidMount() {
+        SplashScreen.hide();
         this.props.navigation.setParams({ 
             lightActiveState: this.state.lightActive,
             onToggleLight: this.toggleLight.bind(this),

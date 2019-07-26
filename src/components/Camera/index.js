@@ -194,6 +194,7 @@ class Camera extends React.Component {
         width: '100%',
         height: moderateScale(40),
         marginTop: moderateScale(9),
+        borderRadius: moderateScale(40)/2,
         backgroundColor: colors.mainContrast,
         justifyContent: 'center',
         alignItems: 'center'
