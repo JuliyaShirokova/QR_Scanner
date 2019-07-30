@@ -17,6 +17,8 @@ import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
             height: moderateScale(90),
             paddingTop: moderateScale(30),
             backgroundColor: colors.mainContrastWithoutOpacity,
+            elevation: 0,
+            shadowOpacity: 0,
         }
     });
 

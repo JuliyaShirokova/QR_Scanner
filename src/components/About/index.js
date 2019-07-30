@@ -7,7 +7,7 @@ import urlify from '../../utilits/urlify';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const urlJulia='www.linkedin.com/in/juliya-shyrokova-b859b2127';
-
+const urlAndrii='www.linkedin.com/in/andriituma/'
 
 class About extends Component{
     
@@ -33,7 +33,14 @@ class About extends Component{
                 style={styles.container}
             >
                 <View style={styles.aboutContent}>
-                    <Text style={styles.aboutText}>Design by: Andrii Tuma</Text>
+                    <View style={{flexDirection: 'row', alignContent: 'center', }}>
+                        <Text style={styles.aboutText}>Design by: Andrii Tuma  </Text>
+                        <TouchableOpacity
+                            onPress={() => this.openUrl(urlAndrii)}
+                        >
+                            <Icon name="linkedin-square" size={24} color={'rgb(14,118,168)'} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={{flexDirection: 'row', alignContent: 'center', }}>
                         <Text style={styles.aboutText}>Coding by: Julia Shirokova  </Text>    
                         <TouchableOpacity
@@ -61,12 +68,9 @@ const styles=StyleSheet.create({
     aboutText: {
         fontFamily: fonts.HelveticaNeue,
         fontSize: moderateScale(16),
-        lineHeight: moderateScale(23),
+        lineHeight: moderateScale(25),
         color: colors.contentText,
     },
-    urlStyle: {
-        color: 'blue'
-    }
 })
 export default About;
 

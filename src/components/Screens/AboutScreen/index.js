@@ -14,7 +14,9 @@ class AboutScreen extends Component{
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
-            backgroundColor: colors.mainContrast,
+            backgroundColor: colors.mainContrastWithoutOpacity,
+            elevation: 0,
+            shadowOpacity: 0,
         }
     });
     componentDidMount = () => {

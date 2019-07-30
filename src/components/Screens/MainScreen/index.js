@@ -37,12 +37,15 @@ class MainScreen extends Component{
             height: moderateScale(90),
             paddingTop: moderateScale(30),
             backgroundColor: colors.mainContrast,
+            elevation: 0,
+            shadowOpacity: 0,
         }
     });
     
     componentDidMount() {
-        SplashScreen.hide();
-        this.props.navigation.setParams({ 
+       SplashScreen.hide();
+  
+       this.props.navigation.setParams({ 
             lightActiveState: this.state.lightActive,
             onToggleLight: this.toggleLight.bind(this),
             renderMenu: this.renderMenu

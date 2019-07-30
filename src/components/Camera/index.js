@@ -13,7 +13,6 @@ import { RNCamera } from 'react-native-camera';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
-import getBottomNavigationHeight from '../../utilits/getBottomNavigationHeight';
 
 class Camera extends React.Component {
     state = {
@@ -71,7 +70,8 @@ class Camera extends React.Component {
       this.setState(
             {
                 barcodes: ev.data,
-                barcodeObj: ev
+                barcodeObj: ev,
+                canDetectBarcode: false,
             },
             this.pushResult
             );
@@ -133,9 +133,7 @@ class Camera extends React.Component {
               <TouchableOpacity 
                 style={styles.actionButtonHolder}
                 onPress={ this.toggleValue('canDetectBarcode') } >
-                <Text style={styles.actionButtonText}>
-                  {!canDetectBarcode ? 'SCAN' : 'SCANNING'}
-                </Text>
+                <Text style={styles.actionButtonText}>SCAN</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -152,7 +150,7 @@ class Camera extends React.Component {
         } else if (focusedScreen){
           return <View style={styles.container}>{this.renderCamera()}</View>
         } else {
-          return <View />;
+          return <View style={styles.container}></View>;
         }
     }
   }

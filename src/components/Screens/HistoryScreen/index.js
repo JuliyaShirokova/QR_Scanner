@@ -3,9 +3,8 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import HeaderTitle from '../../Common/HeaderTitle';
 import HistoryContainer from '../../HistoryContainer';
 import * as colors from '../../../constants/colors';
-import PopUpMenu from '../../Common/PopUpMenu';
+import PopUpMenuHistory from '../../Common/PopUpMenuHistory';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
-
 
 class HistoryScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
@@ -16,6 +15,8 @@ class HistoryScreen extends Component{
             height: moderateScale(90),
             paddingTop: moderateScale(30),
             backgroundColor: colors.mainContrastWithoutOpacity,
+            elevation: 0,
+            shadowOpacity: 0,
         }
     });
 
@@ -26,7 +27,7 @@ class HistoryScreen extends Component{
     };
     
     get renderMenu(){
-        return (<PopUpMenu navigation={this.props.navigation} />)
+        return (<PopUpMenuHistory navigation={this.props.navigation} />)
     }
 
 

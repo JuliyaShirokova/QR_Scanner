@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Modal, StyleSheet, Alert} from 'react-native';
 import PropTypes from 'prop-types';
 import * as fonts from '../../../constants/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,17 +10,37 @@ import {
     MenuTrigger,
   } from 'react-native-popup-menu';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { store } from '../../../store';
+import { resetStore } from '../../../actions';
 
+const clearStore = () => {
 
-const PopUpMenu = ( props ) => {    
+    return Alert.alert(
+        'Are you sure you want clear history?',
+        '',
+        [
+            {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {   
+                text: 'OK',
+                onPress: () => store.dispatch(resetStore())
+            },
+          ],
+          {cancelable: false},
+    );
+}
+const PopUpMenuHistory = ( props ) => {    
     return (<Menu>
                 <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
                         <Ionicons name='md-more' color='white' size={24} />
                 </MenuTrigger>
                 <MenuOptions customStyles={{optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
-                    <MenuOption onSelect={() => props.navigation.navigate('History')}>
+                    <MenuOption onSelect={() => clearStore()}>
                         <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>History</Text>
+                            <Text style={styles.menuItemText}>Clear history</Text>
                         </View>
                     </MenuOption>
                     <MenuOption onSelect={() => props.navigation.navigate('About')} >
@@ -72,8 +92,8 @@ const  styles = StyleSheet.create({
 
 })
 
-PopUpMenu.propTypes = {
+PopUpMenuHistory.propTypes = {
   navigation: PropTypes.object
 };
 
-export default PopUpMenu;
+export default PopUpMenuHistory;

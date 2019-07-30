@@ -1,15 +1,18 @@
-import { ADD_RESULT } from "../constants/action-types";
-import {Alert} from 'react-native';
-const initialState = {
+import { ADD_RESULT, RESET_STORE } from "../constants/action-types";
+
+const INITIAL_STATE = {
   results: []
 };
 
-function results(state = initialState, action) {
-  if (action.type === ADD_RESULT) {
-    return {
-      results: [action.payload, ...state.results]
-    }
+function results(state = INITIAL_STATE, action) {
+  switch (action.type){
+    case ADD_RESULT:
+      return {
+        results: [action.payload, ...state.results]
+      }
+    case RESET_STORE: { return INITIAL_STATE }
+    default : { return state }
   }
-  return state;
+  
 }
 export default results;
