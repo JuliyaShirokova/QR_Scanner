@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, StatusBar, Dimensions} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import CameraContainer from '../../CameraContainer';
 import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import HeaderTitle from '../../Common/HeaderTitle';
 import About from '../../About';
 import * as colors from '../../../constants/colors';

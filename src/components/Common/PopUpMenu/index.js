@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import * as fonts from '../../../constants/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons';

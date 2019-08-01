@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Alert } from 'react-native';
 import Result from '../Result';
 import {connect} from "react-redux";
 

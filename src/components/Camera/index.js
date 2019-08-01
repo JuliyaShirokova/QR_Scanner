@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
-  Alert,
 } from 'react-native';
 import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';

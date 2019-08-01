@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { ADD_RESULT, RESET_STORE } from "../constants/action-types";
 
 export function addResult( payload ) {
