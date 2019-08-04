@@ -1,4 +1,4 @@
-package com.test;
+package com.qrscannerjsd;
 
 import android.os.Bundle;
 
