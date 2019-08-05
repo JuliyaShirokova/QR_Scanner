@@ -91,12 +91,12 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = true
+def enableSeparateBuildPerCPUArchitecture = false
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * Use international variant JavaScriptCore
@@ -116,10 +116,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.julia.shirokova.dev.qr_scanner"
+        applicationId "com.qrscannerjsd"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 3
         versionName "1.0"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
@@ -167,6 +167,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-svg')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.android.support:support-v4:28.0.0'
