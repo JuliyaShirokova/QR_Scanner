@@ -12,6 +12,7 @@ import { RNCamera } from 'react-native-camera';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { withTranslation } from 'react-i18next';
 
 class Camera extends React.Component {
     state = {
@@ -88,6 +89,9 @@ class Camera extends React.Component {
         top: this.state.autoFocusPoint.drawRectPosition.y,
         left: this.state.autoFocusPoint.drawRectPosition.x,
       };
+
+      const { t, i18n } = this.props;
+        
       return (
         <RNCamera
           ref={ref => {
@@ -128,11 +132,11 @@ class Camera extends React.Component {
           </View>
           <View style={styles.actionContent}>
             <View style={styles.actionBlock}>
-              <Text style={styles.actionText}>Point the camera at the QR code and press</Text>
+              <Text style={styles.actionText}>{t('description')}</Text>
               <TouchableOpacity 
                 style={styles.actionButtonHolder}
                 onPress={ this.toggleValue('canDetectBarcode') } >
-                <Text style={styles.actionButtonText}>SCAN</Text>
+                <Text style={styles.actionButtonText}>{t('scanButton')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -153,7 +157,7 @@ class Camera extends React.Component {
         }
     }
   }
-  export default withNavigationFocus(Camera);
+  export default withTranslation('main')(withNavigationFocus(Camera));
   
   const styles = StyleSheet.create({
     container: {

@@ -1,0 +1,42 @@
+{
+    main: {
+      title: 'QR Scanner',
+      description: 'Puntare la fotocamera sul codice QR e premere',
+      scanButton: 'SCAN',
+    },
+    result: {
+      title: 'QR Scanner-Risultato',
+    },
+    history: {
+      title: 'QR Scanner-Storia',
+    },
+    about: {
+      title: 'QR Scanner-Informazioni',
+      design: 'Design: Andrew Tuma  ',
+      codding: 'Coding da: Julia Shirokova  ' 
+    },
+    changeLang: {
+        title: 'Scanner QR-Lingue',
+        en: 'Inglese',
+        ru: 'Russo',
+        uk: 'Ucraino',
+        it: 'Italiano',
+        es: 'Spagnolo'  
+    },
+    menu: {
+      history: 'Storia',
+      about: "Informazioni",
+      cleanHistory: 'Pulire la storia',
+      changeLang: 'Cambia lingua'
+    },
+    common: {
+      move: 'MOSSA',
+      copy: 'COPIA',
+      copyToClipboard: 'Copiato negli Appunti!',
+      canNotHandlerURL: "Impossibile riconoscere l'URL:",
+      sureClearHistory: 'Sei sicuro di voler cancellare la cronologia?',
+      cancel: 'Annulla',
+      OK: 'Va bene'
+
+    }
+  }

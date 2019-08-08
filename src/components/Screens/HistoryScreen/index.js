@@ -10,7 +10,7 @@ class HistoryScreen extends Component{
     static navigationOptions = ({ navigation }) => ({
         headerRight: (<View>{navigation.getParam('renderMenu')}</View>),
         headerTintColor: colors.white,
-        headerTitle: (<HeaderTitle text={'QR Scanner - History'} textColor={colors.titleText} />),
+        headerTitle: (<HeaderTitle text={'title'} ns={'history'} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
@@ -22,14 +22,13 @@ class HistoryScreen extends Component{
 
     componentDidMount = () => {
       this.props.navigation.setParams({
-        renderMenu: this.renderMenu
+        renderMenu: this.renderMenu,
       })
     };
     
     get renderMenu(){
         return (<PopUpMenuHistory navigation={this.props.navigation} />)
     }
-
 
     render(){
         return (

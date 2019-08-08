@@ -5,6 +5,7 @@ import * as fonts from '../../constants/fonts';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 import urlify from '../../utilits/urlify';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withTranslation } from 'react-i18next';
 
 const urlJulia='www.linkedin.com/in/juliya-shyrokova-b859b2127';
 const urlAndrii='www.linkedin.com/in/andriituma/'
@@ -27,14 +28,14 @@ class About extends Component{
             .catch((err) => console.err('An error occurred', err));
     }
     render(){
-    
+        const { t, i18n } = this.props;
         return (
             <View
                 style={styles.container}
             >
                 <View style={styles.aboutContent}>
                     <View style={{flexDirection: 'row', alignContent: 'center', }}>
-                        <Text style={styles.aboutText}>Design by: Andrii Tuma  </Text>
+                        <Text style={styles.aboutText}>{t('design')}</Text>
                         <TouchableOpacity
                             onPress={() => this.openUrl(urlAndrii)}
                         >
@@ -42,7 +43,7 @@ class About extends Component{
                         </TouchableOpacity>
                     </View>
                     <View style={{flexDirection: 'row', alignContent: 'center', }}>
-                        <Text style={styles.aboutText}>Coding by: Julia Shirokova  </Text>    
+                        <Text style={styles.aboutText}>{t('codding')}</Text>    
                         <TouchableOpacity
                             onPress={() => this.openUrl(urlJulia)}
                         >
@@ -72,5 +73,5 @@ const styles=StyleSheet.create({
         color: colors.contentText,
     },
 })
-export default About;
+export default withTranslation('about')(About);
 

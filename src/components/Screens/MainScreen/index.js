@@ -8,7 +8,6 @@ import SvgComponents from '../../../components/Common/SvgComponents';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 import SplashScreen from 'react-native-splash-screen';
 
-
 class MainScreen extends Component{
     constructor(props){
         super(props);
@@ -32,7 +31,7 @@ class MainScreen extends Component{
                 <View>{navigation.getParam('renderMenu')}</View>
         </View>
         ), 
-        headerTitle: (<HeaderTitle text={'QR Scanner'} textColor={colors.titleText} />),
+        headerTitle: (<HeaderTitle text={'title'} ns={'main'} textColor={colors.titleText} />),
         headerStyle: { 
             height: moderateScale(90),
             paddingTop: moderateScale(30),
@@ -48,13 +47,12 @@ class MainScreen extends Component{
        this.props.navigation.setParams({ 
             lightActiveState: this.state.lightActive,
             onToggleLight: this.toggleLight.bind(this),
-            renderMenu: this.renderMenu
+            renderMenu: this.renderMenu,
         });
     }
     get renderMenu(){
         return (<PopUpMenu navigation={this.props.navigation} />)
     }
-
 
     toggleLight = () => {
         this.setState({lightActive: !this.state.lightActive }, () => {

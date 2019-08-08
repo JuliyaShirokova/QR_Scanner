@@ -10,22 +10,28 @@ import {
     MenuTrigger,
   } from 'react-native-popup-menu';
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
-
+import { useTranslation } from 'react-i18next';
 
 const PopUpMenu = ( props ) => {    
+    const { t, i18n } = useTranslation('menu');
     return (<Menu>
                 <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
                         <Ionicons name='md-more' color='white' size={24} />
                 </MenuTrigger>
-                <MenuOptions customStyles={{optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
+                <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
                     <MenuOption onSelect={() => props.navigation.navigate('History')}>
                         <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>History</Text>
+                            <Text style={styles.menuItemText}>{t('history')}</Text>
                         </View>
                     </MenuOption>
                     <MenuOption onSelect={() => props.navigation.navigate('About')} >
+                        <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
+                            <Text style={styles.menuItemText}>{t('about')}</Text>
+                        </View>
+                    </MenuOption>
+                    <MenuOption onSelect={() => props.navigation.navigate('ChangeLang')} >
                         <View style={styles.menuItemHolder}>
-                            <Text style={styles.menuItemText}>About QR Scanner</Text>
+                            <Text style={styles.menuItemText}>{t('changeLang')}</Text>
                         </View>
                     </MenuOption>
                 </MenuOptions>
@@ -33,16 +39,7 @@ const PopUpMenu = ( props ) => {
     )}
 
 const  styles = StyleSheet.create({
-    optionsContainer: {
-        width: moderateScale(180),
-        alignItems: 'flex-start',
-        padding: 0, 
-        margin: 0
-    },
     optionsWrapper: {
-        flex: 1,
-        padding: 0,
-        margin: 0,
         elevation: 2,
         paddingVertical: moderateScale(7),
     },
@@ -55,7 +52,7 @@ const  styles = StyleSheet.create({
         justifyContent: 'center',
     },
     menuItemHolder: {
-        width: '100%',
+        width: moderateScale(170),
         marginHorizontal: moderateScale(14),
         alignItems: 'flex-end',
     },

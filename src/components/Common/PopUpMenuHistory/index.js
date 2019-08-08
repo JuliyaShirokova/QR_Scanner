@@ -12,40 +12,48 @@ import {
 import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
 import { store } from '../../../store';
 import { resetStore } from '../../../actions';
+import { useTranslation } from 'react-i18next';
 
 const clearStore = () => {
-
+    const { t, i18n } = useTranslation('common');
     return Alert.alert(
-        'Are you sure you want clear history?',
+        t('sureClearHistory'),
         '',
         [
             {
-                text: 'Cancel',
+                text: t('cancel'),
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
             },
             {   
-                text: 'OK',
+                text: t('OK'),
                 onPress: () => store.dispatch(resetStore())
             },
           ],
           {cancelable: false},
     );
 }
-const PopUpMenuHistory = ( props ) => {    
+const PopUpMenuHistory = ( props ) => {  
+    const { t, i18n } = useTranslation('menu');
+    
     return (<Menu>
                 <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
                         <Ionicons name='md-more' color='white' size={24} />
                 </MenuTrigger>
-                <MenuOptions customStyles={{optionsContainer: styles.optionsContainer, optionsWrapper: styles.optionsWrapper, optionWrapper: {padding: 0, margin: 0}}}>
+                <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {width: '100%', padding: 0, margin: 0}}}>
                     <MenuOption onSelect={() => clearStore()}>
                         <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>Clear history</Text>
+                            <Text style={styles.menuItemText}>{t('clearHistory')}</Text>
                         </View>
                     </MenuOption>
                     <MenuOption onSelect={() => props.navigation.navigate('About')} >
+                        <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
+                            <Text style={styles.menuItemText}>{t('about')}</Text>
+                        </View>
+                    </MenuOption>
+                    <MenuOption onSelect={() => props.navigation.navigate('ChangeLang')} >
                         <View style={styles.menuItemHolder}>
-                            <Text style={styles.menuItemText}>About QR Scanner</Text>
+                            <Text style={styles.menuItemText}>{t('changeLang')}</Text>
                         </View>
                     </MenuOption>
                 </MenuOptions>
@@ -53,15 +61,7 @@ const PopUpMenuHistory = ( props ) => {
     )}
 
 const  styles = StyleSheet.create({
-    optionsContainer: {
-        width: moderateScale(180),
-        alignItems: 'flex-start',
-        padding: 0, 
-        margin: 0
-    },
     optionsWrapper: {
-        flex: 1,
-        padding: 0,
         margin: 0,
         elevation: 2,
         paddingVertical: moderateScale(7),
@@ -75,9 +75,10 @@ const  styles = StyleSheet.create({
         justifyContent: 'center',
     },
     menuItemHolder: {
-        width: '100%',
+        width: moderateScale(170),
         marginHorizontal: moderateScale(14),
         alignItems: 'flex-end',
+        borderWidth: 1
     },
     borderBottomStyle: {
         borderColor: '#979797',

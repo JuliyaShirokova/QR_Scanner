@@ -5,6 +5,7 @@ import * as fonts from '../../constants/fonts';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 import getBottomPadding from '../../utilits/getBotomPadding';
 import urlify from '../../utilits/urlify'
+import { withTranslation } from 'react-i18next';
 
 class Result extends Component{
     constructor(props){
@@ -48,7 +49,7 @@ class Result extends Component{
         return Linking.canOpenURL(url)
             .then((supported) => {
                 if (!supported) {
-                Alert.alert("Can't handle url: ", url);
+                Alert.alert(t('canNotHandlerURL'), url);
                 } else {
                 return Linking.openURL(url);
                 }
@@ -58,7 +59,7 @@ class Result extends Component{
 
     copyToClipboard = async (text) => {
         await Clipboard.setString(text);
-        Alert.alert('Copied to Clipboard!', text);
+        Alert.alert(t('copyToClipboard'), text);
     };
   
     getOpacity = (dis) => {
@@ -66,6 +67,7 @@ class Result extends Component{
     }
 
     render(){
+        const { t, i18n } = this.props;
         return (
             <View
                 style={styles.container}
@@ -83,7 +85,7 @@ class Result extends Component{
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
                         >
-                            <Text style={styles.actionButtonText}>COPY</Text>
+                            <Text style={styles.actionButtonText}>{t('copy')}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={style=styles.actionButtonHolder}>
@@ -92,7 +94,7 @@ class Result extends Component{
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
                         >    
-                            <Text style={styles.actionButtonText}>MOVE</Text>
+                            <Text style={styles.actionButtonText}>{t('move')}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -144,5 +146,5 @@ const styles=StyleSheet.create({
     }
 
 })
-export default Result;
+export default withTranslation('common')(Result);
 

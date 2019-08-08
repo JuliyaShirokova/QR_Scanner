@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
 import getBottomPadding from '../../utilits/getBotomPadding';
 import urlify from '../../utilits/urlify';
+import { withTranslation } from 'react-i18next';
 
 class History extends Component{
     constructor(props){
@@ -79,7 +80,6 @@ class History extends Component{
         return (
             <View
                 key={index}
-                style={styles.historyItemHolder}
             >
                 <TouchableOpacity
                     style={[styles.historyItem, this.getItemStyle( elKey )]}
@@ -113,7 +113,7 @@ class History extends Component{
         return Linking.canOpenURL(url)
             .then((supported) => {
                 if (!supported) {
-                    Alert.alert("Can't handle url: ", url);
+                    Alert.alert(t('canNotHandlerURL'), url);
                 } else {
                     return Linking.openURL(url);
                 }
@@ -124,13 +124,14 @@ class History extends Component{
     copyToClipboard = async () => {
         const curr = this.state.selectedData;
         await Clipboard.setString(curr);
-        Alert.alert('Copied to Clipboard!', curr);
+        Alert.alert(t('copyToClipboard'), curr);
     };
     getOpacity = (dis) => {
         return (dis) ? 0.5 : 1
     }
 
     render(){
+        const { t, i18n } = this.props;
         return (
             <View
                 style={styles.container}
@@ -150,7 +151,7 @@ class History extends Component{
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
                         >
-                            <Text style={styles.actionButtonText}>COPY</Text>
+                            <Text style={styles.actionButtonText}>{t('copy')}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={style=styles.actionButtonHolder}>
@@ -159,7 +160,7 @@ class History extends Component{
                             style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
                         >    
-                            <Text style={styles.actionButtonText}>MOVE</Text>
+                            <Text style={styles.actionButtonText}>{t('move')}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -223,5 +224,5 @@ const styles=StyleSheet.create({
     }
 
 })
-export default History;
+export default withTranslation('common')(History);
 
