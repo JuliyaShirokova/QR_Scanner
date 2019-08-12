@@ -43,7 +43,7 @@ const PopUpMenuHistory = ( props ) => {
                 <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {width: '100%', padding: 0, margin: 0}}}>
                     <MenuOption onSelect={() => clearStore()}>
                         <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>{t('clearHistory')}</Text>
+                            <Text style={styles.menuItemText}>{t('cleanHistory')}</Text>
                         </View>
                     </MenuOption>
                     <MenuOption onSelect={() => props.navigation.navigate('About')} >
@@ -78,7 +78,6 @@ const  styles = StyleSheet.create({
         width: moderateScale(170),
         marginHorizontal: moderateScale(14),
         alignItems: 'flex-end',
-        borderWidth: 1
     },
     borderBottomStyle: {
         borderColor: '#979797',

@@ -1,0 +1,43 @@
+{
+    "main": {
+      "title": "QR Scanner",
+      "description": "Point the camera at the QR code and press",
+      "scanButton": "SCAN"
+    },
+    "result": {
+      "title": "QR Scanner - Result"
+    },
+    "history": {
+      "title": "QR Scanner - History"
+    },
+    "about": {
+      "title": "QR Scanner - About",
+      "design": "Design by: Andrii Tuma  ",
+      "codding": "Coding by: Julia Shirokova  " 
+    },
+    "changeLang": {
+        "title": "QR Scanner - Languages",
+        "en": "English",
+        "ru": "Russian",
+        "uk": "Ukrainian",
+        "it": "Italian",
+        "es": "Spanish",
+        "de": "Deutsch",
+        "fr": "French" 
+    },
+    "menu": {
+      "history": "History",
+      "about": "About",
+      "cleanHistory": "Clean history",
+      "changeLang": "Change language"
+    },
+    "common": {
+      "move": "MOVE",
+      "copy": "COPY",
+      "copyToClipboard": "Copied to Clipboard!",
+      "canNotHandlerURL": "Can't handle url: ",
+      "sureClearHistory": "Are you sure you want clear history?",
+      "cancel": "Cancel",
+      "OK": "OK"
+    }
+  }

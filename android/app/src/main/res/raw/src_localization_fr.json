@@ -1,0 +1,43 @@
+{
+    "main": {
+      "title": "QR Scanner",
+      "description": "Dirigez la caméra vers le code QR et appuyez sur",
+      "scanButton": "SCRUTER"
+    },
+    "result": {
+      "title": "QR Scanner - Résultat"
+    },
+    "history": {
+      "title": "QR Scanner - Histoire"
+    },
+    "about": {
+      "title": "QR Scanner - À propos",
+      "design": "Design: Andriy Tuma  ",
+      "codding": "Codage: Julia Shirokova  " 
+    },
+    "changeLang": {
+        "title": "QR Scanner - Langues",
+        "en": "Langue anglaise",
+        "ru": "Langue russe",
+        "uk": "Langue ukrainienne",
+        "it": "Langue italienne",
+        "es": "Langue espagnole",
+        "de": "Langue allemande",
+        "fr": "Langue française" 
+    },
+    "menu": {
+      "history": "L'histoire",
+      "about": "À propos",
+      "cleanHistory": "Effacer l'historique",
+      "changeLang": "Changer de langue"
+    },
+    "common": {
+      "move": "SE DÉPLACER",
+      "copy": "COPIE",
+      "copyToClipboard": "Copié dans le presse-papier!",
+      "canNotHandlerURL": "Impossible de gérer l'URL:",
+      "sureClearHistory": "Êtes-vous sûr de vouloir effacer l'histoire?",
+      "cancel": "Annuler",
+      "OK": "D'accord"
+    }
+  }

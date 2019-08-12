@@ -1,0 +1,43 @@
+{
+    "main": {
+      "title": "QR Scanner",
+      "description": "Richten Sie die Kamera auf den QR-Code ein und drücken",
+      "scanButton": "SCAN"
+    },
+    "result": {
+      "title": "QR Scanner - Ergebnis"
+    },
+    "history": {
+      "title": "QR Scanner - Geschichte"
+    },
+    "about": {
+      "title": "QR Scanner - Über",
+      "design": "Design: Andrew Tuma  ",
+      "codding": "Codierung von: Julia Shirokova  " 
+    },
+    "changeLang": {
+        "title": "QR Scanner - Sprachen",
+        "en": "Englisch",
+        "ru": "Russisch",
+        "uk": "Ukrainisch",
+        "it": "Italienisch",
+        "es": "Spanisch",
+        "de": "Deutsch",
+        "fr": "Französisch" 
+    },
+    "menu": {
+      "history": "Geschichte",
+      "about": "Über die Bewerbung",
+      "cleanHistory": "Bereinige die Geschichte",
+      "changeLang": "Sprache ändern"
+    },
+    "common": {
+      "move": "BEWEGUNG",
+      "copy": "KOPIEREN",
+      "copyToClipboard": "In die Zwischenablage kopiert!",
+      "canNotHandlerURL": "Nicht umgehen kann url:",
+      "sureClearHistory": "Sind Sie sicher dass Sie klare Geschichte wollen?",
+      "cancel": "Stornieren",
+      "OK": "OK"
+    }
+  }

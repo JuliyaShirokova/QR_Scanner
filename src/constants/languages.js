@@ -1,1 +1,1 @@
-export default languages=['en', 'es', 'fr', 'ru', 'it', 'uk'];
+export default languages=['en', 'es', 'fr', 'ru', 'de', 'it', 'uk'];

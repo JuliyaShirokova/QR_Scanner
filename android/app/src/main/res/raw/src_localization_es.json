@@ -1,0 +1,44 @@
+{
+    "main": {
+      "title": "Escáner QR",
+      "description": "Apunte la cámara al código QR y presione",
+      "scanButton": "ESCANEAR"
+    },
+    "result": {
+      "title": "Escáner QR - Resultado"
+    },
+    "history": {
+      "title": "Escáner QR - Historia"
+    },
+    "about": {
+      "title": "QR Scanner - Sobre el programa",
+      "design": "Diseño: Andrew Tuma  ",
+      "codding": "Codificación por: Julia Shirokova  " 
+    },
+    "changeLang": {
+        "title": "Escáner QR - Idiomas",
+        "en": "Inglés",
+        "ru": "Ruso",
+        "uk": "Ucranio",
+        "it": "Italiano",
+        "es": "Espanol",
+        "de": "Aleman",
+        "fr": "Francés"  
+    },
+    "menu": {
+      "history": "Historia",
+      "about": "Sobre el programa",
+      "cleanHistory": "Claro historial",
+      "changeLang": "Cambiar idioma"
+    },
+    "common": {
+      "move": "PASAR",
+      "copy": "DUPDO",
+      "copyToClipboard": "Copiar al portapapeles!",
+      "canNotHandlerURL": "No se puede reconocer la URL:",
+      "sureClearHistory": "¿Seguro que quiere borrar la historia?",
+      "cancel": "Cancelar",
+      "OK": "Okay"
+
+    }
+  }

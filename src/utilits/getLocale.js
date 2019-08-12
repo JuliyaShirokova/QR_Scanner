@@ -4,8 +4,9 @@ import { NativeModules } from 'react-native';
 
 export default getLocale = () => {
     if (Platform.OS === 'android') {
-      return NativeModules.I18nManager.localeIdentifier.slice(0,1);
+      const l = NativeModules.I18nManager.localeIdentifier.slice(0,2);
+      return l;
     } else {
-      return NativeModules.SettingsManager.settings.AppleLocale.slice(0,1);
+      return NativeModules.SettingsManager.settings.AppleLocale.slice(0,2);
     }
   }

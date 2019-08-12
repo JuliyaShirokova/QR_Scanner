@@ -9,7 +9,13 @@ const HeaderTitle = (props) => {
     const translation = t(props.text);
     return (
         <View style={styles.container}>
-            <Text style={[styles.headerText, {color: props.textColor}]}>{translation}</Text>
+            <Text
+                numberOfLines={1}
+                ellipsizeMode='tail' 
+                style={[styles.headerText, {color: props.textColor}]}
+            >
+                {translation}
+            </Text>
         </View>
     )
 }

@@ -1,41 +1,43 @@
 {
-    main: {
-      title: 'QR Scanner',
-      description: 'Point the camera at the QR code and press',
-      scanButton: 'SCAN',
+    "main": {
+      "title": "QR Scanner",
+      "description": "Dirigez la caméra vers le code QR et appuyez sur",
+      "scanButton": "SCRUTER"
     },
-    result: {
-      title: 'QR Scanner - Result',
+    "result": {
+      "title": "QR Scanner - Résultat"
     },
-    history: {
-      title: 'QR Scanner - History',
+    "history": {
+      "title": "QR Scanner - Histoire"
     },
-    about: {
-      title: 'QR Scanner-About',
-      design: 'Design by: Andrii Tuma  ',
-      codding: 'Coding by: Julia Shirokova  ' 
+    "about": {
+      "title": "QR Scanner - À propos",
+      "design": "Design: Andriy Tuma  ",
+      "codding": "Codage: Julia Shirokova  " 
     },
-    changeLang: {
-        title: 'QR Scanner-Languages',
-        en: 'English',
-        ru: 'Russian',
-        uk: 'Ukrainian',
-        it: 'Italian',
-        es: 'Spanish'  
+    "changeLang": {
+        "title": "QR Scanner - Langues",
+        "en": "Langue anglaise",
+        "ru": "Langue russe",
+        "uk": "Langue ukrainienne",
+        "it": "Langue italienne",
+        "es": "Langue espagnole",
+        "de": "Langue allemande",
+        "fr": "Langue française" 
     },
-    menu: {
-      history: 'History',
-      about: 'About',
-      cleanHistory: 'Clean history',
-      changeLang: 'Change language'
+    "menu": {
+      "history": "L'histoire",
+      "about": "À propos",
+      "cleanHistory": "Effacer l'historique",
+      "changeLang": "Changer de langue"
     },
-    common: {
-      move: 'MOVE',
-      copy: 'COPY',
-      copyToClipboard: 'Copied to Clipboard!',
-      canNotHandlerURL: "Can't handle url: ",
-      sureClearHistory: 'Are you sure you want clear history?',
-      cancel: 'Cancel',
-      OK: 'OK'
+    "common": {
+      "move": "SE DÉPLACER",
+      "copy": "COPIE",
+      "copyToClipboard": "Copié dans le presse-papier!",
+      "canNotHandlerURL": "Impossible de gérer l'URL:",
+      "sureClearHistory": "Êtes-vous sûr de vouloir effacer l'histoire?",
+      "cancel": "Annuler",
+      "OK": "D'accord"
     }
   }
