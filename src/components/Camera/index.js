@@ -11,7 +11,7 @@ import { withNavigationFocus } from "react-navigation";
 import { RNCamera } from 'react-native-camera';
 import * as fonts from '../../constants/fonts';
 import * as colors from '../../constants/colors';
-import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { moderateScale } from '../../utilits/scalable';
 import { withTranslation } from 'react-i18next';
 
 class Camera extends React.Component {

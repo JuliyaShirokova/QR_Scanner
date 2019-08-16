@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, SectionList, StyleSheet, Alert, Linking, Clipboard, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, SectionList, StyleSheet, Linking, Dimensions} from 'react-native';
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
 import { ScrollView } from 'react-native-gesture-handler';
-import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { moderateScale } from '../../utilits/scalable';
 import getBottomPadding from '../../utilits/getBotomPadding';
 import urlify from '../../utilits/urlify';
+import { copyToClipboard, onMove, getOpacity } from '../../utilits/actionButtonFunctions'
 import { withTranslation } from 'react-i18next';
 
 class History extends Component{
@@ -107,29 +108,6 @@ class History extends Component{
         return list || 'No results';
     }
 
-    onMove = () => {
-        const curr = this.state.selectedData;    
-        const url = `${urlify(curr)}`;
-        return Linking.canOpenURL(url)
-            .then((supported) => {
-                if (!supported) {
-                    Alert.alert(t('canNotHandlerURL'), url);
-                } else {
-                    return Linking.openURL(url);
-                }
-            })
-            .catch((err) => console.err('An error occurred', err));
-    }
-
-    copyToClipboard = async () => {
-        const curr = this.state.selectedData;
-        await Clipboard.setString(curr);
-        Alert.alert(t('copyToClipboard'), curr);
-    };
-    getOpacity = (dis) => {
-        return (dis) ? 0.5 : 1
-    }
-
     render(){
         const { t, i18n } = this.props;
         return (
@@ -147,8 +125,8 @@ class History extends Component{
                     <View style={style=styles.actionButtonHolder}>
                     
                         <TouchableOpacity
-                            onPress={() => this.copyToClipboard('text')}
-                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
+                            onPress={() => copyToClipboard(this.state.selectedData, t)}
+                            style={[styles.actionButton, {opacity: getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
                         >
                             <Text style={styles.actionButtonText}>{t('copy')}</Text>
@@ -156,8 +134,8 @@ class History extends Component{
                     </View>
                     <View style={style=styles.actionButtonHolder}>
                         <TouchableOpacity
-                            onPress={() => this.onMove()}
-                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
+                            onPress={() => onMove(this.state.selectedData, t)}
+                            style={[styles.actionButton, {opacity: getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
                         >    
                             <Text style={styles.actionButtonText}>{t('move')}</Text>
@@ -168,6 +146,9 @@ class History extends Component{
         )
     }
 }
+
+export default withTranslation('common')(History);
+
 const styles=StyleSheet.create({
     container: {
         width: '100%',
@@ -224,5 +205,3 @@ const styles=StyleSheet.create({
     }
 
 })
-export default withTranslation('common')(History);
-

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Text, View, StyleSheet } from 'react-native';
 import * as fonts from '../../constants/fonts';
-import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { moderateScale } from '../../utilits/scalable';
 import { useTranslation } from 'react-i18next';
 const HeaderTitle = (props) => {
     const ns = props.ns || 'main';

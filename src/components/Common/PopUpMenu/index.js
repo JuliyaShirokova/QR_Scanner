@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import * as fonts from '../../../constants/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -9,7 +8,7 @@ import {
     MenuOption,
     MenuTrigger,
   } from 'react-native-popup-menu';
-import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { moderateScale } from '../../../utilits/scalable';
 import { useTranslation } from 'react-i18next';
 
 const PopUpMenu = ( props ) => {    
@@ -36,7 +35,11 @@ const PopUpMenu = ( props ) => {
                     </MenuOption>
                 </MenuOptions>
             </Menu>
-    )}
+    )
+}
+
+
+export default PopUpMenu;
 
 const  styles = StyleSheet.create({
     optionsWrapper: {
@@ -68,9 +71,3 @@ const  styles = StyleSheet.create({
     }
 
 })
-
-PopUpMenu.propTypes = {
-  navigation: PropTypes.object
-};
-
-export default PopUpMenu;

@@ -76,9 +76,9 @@ import com.android.build.OutputFile
  *   extraPackagerArgs: []
  * ]
  */
-
 project.ext.react = [
-    entryFile: "index.js"
+        entryFile: "index.js",
+        jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/mergeReleaseAssets/out"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -96,7 +96,7 @@ def enableSeparateBuildPerCPUArchitecture = true
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * Use international variant JavaScriptCore
@@ -119,8 +119,8 @@ android {
         applicationId "com.qrscannerjsd"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "1.1"
+        versionCode 6
+        versionName "1.6"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -175,7 +175,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-svg')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.android.support:support-v4:28.0.0'

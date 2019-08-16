@@ -5,7 +5,7 @@ import HeaderTitle from '../../Common/HeaderTitle';
 import * as colors from '../../../constants/colors';
 import PopUpMenu from '../../Common/PopUpMenu';
 import SvgComponents from '../../../components/Common/SvgComponents';
-import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { moderateScale } from '../../../utilits/scalable';
 import SplashScreen from 'react-native-splash-screen';
 
 class MainScreen extends Component{

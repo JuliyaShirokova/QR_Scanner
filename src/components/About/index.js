@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Alert, Linking} from 'react-native';
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
-import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { moderateScale } from '../../utilits/scalable';
 import urlify from '../../utilits/urlify';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { withTranslation } from 'react-i18next';

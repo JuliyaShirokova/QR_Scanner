@@ -1,6 +1,5 @@
-import React from 'react';
-import { Text, View, Modal, StyleSheet, Alert} from 'react-native';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react';
+import { Text, View, StyleSheet, Alert} from 'react-native';
 import * as fonts from '../../../constants/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -9,56 +8,61 @@ import {
     MenuOption,
     MenuTrigger,
   } from 'react-native-popup-menu';
-import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { moderateScale } from '../../../utilits/scalable';
 import { store } from '../../../store';
 import { resetStore } from '../../../actions';
-import { useTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
-const clearStore = () => {
-    const { t, i18n } = useTranslation('common');
-    return Alert.alert(
-        t('sureClearHistory'),
-        '',
-        [
-            {
-                text: t('cancel'),
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {   
-                text: t('OK'),
-                onPress: () => store.dispatch(resetStore())
-            },
-          ],
-          {cancelable: false},
-    );
-}
-const PopUpMenuHistory = ( props ) => {  
-    const { t, i18n } = useTranslation('menu');
+PopUpMenuHistory = (props) => {  
+
+    const { t, i18n } = props;
+
+    clearStore = () => {
+
+        Alert.alert(
+            t('common:sureClearHistory'),
+            '',
+            [
+                {
+                    text: t('common:cancel'),
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {   
+                    text: t('common:OK'),
+                    onPress: () => store.dispatch(resetStore())
+                },
+              ],
+              {cancelable: false},
+        );
+    }        
     
     return (<Menu>
-                <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
-                        <Ionicons name='md-more' color='white' size={24} />
-                </MenuTrigger>
-                <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {width: '100%', padding: 0, margin: 0}}}>
-                    <MenuOption onSelect={() => clearStore()}>
-                        <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>{t('cleanHistory')}</Text>
-                        </View>
-                    </MenuOption>
-                    <MenuOption onSelect={() => props.navigation.navigate('About')} >
-                        <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
-                            <Text style={styles.menuItemText}>{t('about')}</Text>
-                        </View>
-                    </MenuOption>
-                    <MenuOption onSelect={() => props.navigation.navigate('ChangeLang')} >
-                        <View style={styles.menuItemHolder}>
-                            <Text style={styles.menuItemText}>{t('changeLang')}</Text>
-                        </View>
-                    </MenuOption>
-                </MenuOptions>
-            </Menu>
-    )}
+            <MenuTrigger customStyles={{triggerWrapper: styles.menuTrigger}}>
+                    <Ionicons name='md-more' color='white' size={24} />
+            </MenuTrigger>
+            <MenuOptions customStyles={{optionsWrapper: styles.optionsWrapper, optionWrapper: {width: '100%', padding: 0, margin: 0}}}>
+                <MenuOption onSelect={() => clearStore()}>
+                    <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
+                        <Text style={styles.menuItemText}>{t('menu:cleanHistory')}</Text>
+                    </View>
+                </MenuOption>
+                <MenuOption onSelect={() => props.navigation.navigate('About')} >
+                    <View style={[styles.menuItemHolder, styles.borderBottomStyle]}>
+                        <Text style={styles.menuItemText}>{t('menu:about')}</Text>
+                    </View>
+                </MenuOption>
+                <MenuOption onSelect={() => props.navigation.navigate('ChangeLang')} >
+                    <View style={styles.menuItemHolder}>
+                        <Text style={styles.menuItemText}>{t('menu:changeLang')}</Text>
+                    </View>
+                </MenuOption>
+            </MenuOptions>
+        </Menu>
+        )
+}
+
+export default withTranslation()(PopUpMenuHistory);
 
 const  styles = StyleSheet.create({
     optionsWrapper: {
@@ -91,9 +95,3 @@ const  styles = StyleSheet.create({
     }
 
 })
-
-PopUpMenuHistory.propTypes = {
-  navigation: PropTypes.object
-};
-
-export default PopUpMenuHistory;

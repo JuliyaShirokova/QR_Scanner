@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import HeaderTitle from '../../Common/HeaderTitle';
 import HistoryContainer from '../../HistoryContainer';
 import * as colors from '../../../constants/colors';
 import PopUpMenuHistory from '../../Common/PopUpMenuHistory';
-import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { moderateScale } from '../../../utilits/scalable';
 
 class HistoryScreen extends Component{
     static navigationOptions = ({ navigation }) => ({

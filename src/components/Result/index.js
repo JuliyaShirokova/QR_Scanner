@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Alert, Linking, Dimensions, Clipboard} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Linking, Dimensions} from 'react-native';
 import * as colors from '../../constants/colors';
 import * as fonts from '../../constants/fonts';
-import { scale, moderateScale, verticalScale} from '../../utilits/scalable';
+import { moderateScale } from '../../utilits/scalable';
 import getBottomPadding from '../../utilits/getBotomPadding';
-import urlify from '../../utilits/urlify'
+import { copyToClipboard, onMove, getOpacity } from '../../utilits/actionButtonFunctions';
 import { withTranslation } from 'react-i18next';
 
 class Result extends Component{
@@ -42,30 +42,6 @@ class Result extends Component{
 
     getResult = () => this.state.result;
 
-    
-    onMove = () => {
-        const curr = this.state.result;
-        const url = `${urlify(curr)}`;
-        return Linking.canOpenURL(url)
-            .then((supported) => {
-                if (!supported) {
-                Alert.alert(t('canNotHandlerURL'), url);
-                } else {
-                return Linking.openURL(url);
-                }
-            })
-            .catch((err) => console.err('An error occurred', err));
-    }
-
-    copyToClipboard = async (text) => {
-        await Clipboard.setString(text);
-        Alert.alert(t('copyToClipboard'), text);
-    };
-  
-    getOpacity = (dis) => {
-        return (dis) ? 0.5 : 1
-    }
-
     render(){
         const { t, i18n } = this.props;
         return (
@@ -81,8 +57,8 @@ class Result extends Component{
                     <View style={style=styles.actionButtonHolder}>
                     
                         <TouchableOpacity
-                            onPress={() => this.copyToClipboard(this.state.result)}
-                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableCopy)}]}
+                            onPress={() => copyToClipboard(this.state.result, t)}
+                            style={[styles.actionButton, {opacity: getOpacity(this.state.disableCopy)}]}
                             disabled={ this.state.disableCopy }
                         >
                             <Text style={styles.actionButtonText}>{t('copy')}</Text>
@@ -90,8 +66,8 @@ class Result extends Component{
                     </View>
                     <View style={style=styles.actionButtonHolder}>
                         <TouchableOpacity
-                            onPress={() => this.onMove()}
-                            style={[styles.actionButton, {opacity: this.getOpacity(this.state.disableMove)}]}
+                            onPress={() => onMove(this.state.result, t)}
+                            style={[styles.actionButton, {opacity: getOpacity(this.state.disableMove)}]}
                             disabled={ this.state.disableMove }
                         >    
                             <Text style={styles.actionButtonText}>{t('move')}</Text>

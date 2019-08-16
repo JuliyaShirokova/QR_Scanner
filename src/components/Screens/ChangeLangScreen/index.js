@@ -4,7 +4,7 @@ import HeaderTitle from '../../Common/HeaderTitle';
 import ChangeLang from '../../ChangeLang';
 import * as colors from '../../../constants/colors';
 import PopUpMenu from '../../Common/PopUpMenu';
-import { scale, moderateScale, verticalScale} from '../../../utilits/scalable';
+import { moderateScale } from '../../../utilits/scalable';
 
 class ChangeLangScreen extends Component{
     static navigationOptions = ({ navigation }) => ({

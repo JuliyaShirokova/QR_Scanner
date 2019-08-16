@@ -1,6 +1,5 @@
 package com.qrscannerjsd;
 
-import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 
 import com.facebook.react.PackageList;
